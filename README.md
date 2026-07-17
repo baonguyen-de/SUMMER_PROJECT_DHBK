@@ -1,147 +1,556 @@
-# CARCARE MANAGER
+# 🚗 CarCare Manager
 
-## Hệ thống quản lý và kiểm soát ô tô cá nhân bằng Python
-
----
-
-# 1. Tổng quan đề tài
-
-## 1.1. Tên đề tài
-
-**CarCare Manager – Hệ thống quản lý và kiểm soát ô tô cá nhân**
-
-Tên tiếng Anh:
-
-> **CarCare Manager: A Python-Based Personal Vehicle Management and Monitoring System**
+## Hệ thống quản lý và theo dõi ô tô theo phiên sử dụng
 
 ---
 
-## 1.2. Giới thiệu
+## 📌 1. Giới thiệu
 
-Trong quá trình sử dụng ô tô, chủ xe cần theo dõi nhiều thông tin khác nhau như tình trạng phương tiện, lịch sử hành trình, mức tiêu thụ năng lượng, lịch bảo dưỡng, chi phí vận hành và các vấn đề phát sinh trong quá trình sử dụng.
+**CarCare Manager** là một hệ thống quản lý và theo dõi ô tô được xây dựng bằng ngôn ngữ Python.
 
-Tuy nhiên, các thông tin này thường được ghi nhớ hoặc lưu trữ một cách rời rạc, gây khó khăn cho việc theo dõi và tổng hợp dữ liệu về chiếc xe.
+Dự án mô phỏng quá trình quản lý **một chiếc ô tô duy nhất** trong một phiên sử dụng. Người dùng có thể quản lý thông tin xe, theo dõi các chuyến đi, kiểm tra mức tiêu thụ năng lượng, quản lý bảo dưỡng, chi phí, tình trạng xe, các vấn đề phát sinh và phụ kiện của xe.
 
-**CarCare Manager** là một hệ thống quản lý và kiểm soát ô tô cá nhân được xây dựng bằng ngôn ngữ lập trình Python.
+Hệ thống được xây dựng dưới dạng **ứng dụng chạy trên giao diện dòng lệnh (Command-Line Interface)**.
 
-Khác với các hệ thống quản lý nhiều phương tiện, project tập trung vào việc **quản lý duy nhất một chiếc ô tô**. Hệ thống mô phỏng quá trình người dùng theo dõi toàn bộ vòng đời sử dụng của chiếc xe thông qua các dữ liệu do người dùng nhập vào.
+Người dùng có thể điều khiển menu bằng:
 
-Hệ thống cho phép người dùng:
+```text
+↑       Di chuyển lên
+↓       Di chuyển xuống
+Enter   Chọn
+```
 
-* Quản lý thông tin chiếc xe.
-* Theo dõi lịch sử hành trình.
-* Theo dõi mức tiêu thụ năng lượng.
-* Quản lý lịch sử bảo dưỡng.
-* Theo dõi chi phí sử dụng xe.
-* Kiểm tra tình trạng các bộ phận của xe.
-* Theo dõi các vấn đề và cảnh báo của xe.
-* Quản lý các phụ kiện và trang bị trên xe.
-* Xem báo cáo tổng hợp về tình trạng và quá trình sử dụng xe.
+### Đặc điểm chính
 
-Người dùng tương tác với hệ thống thông qua **giao diện dòng lệnh CLI**.
+CarCare Manager hoạt động theo mô hình **quản lý theo phiên sử dụng**.
 
-Để tăng tính trực quan và tạo cảm giác giống một hệ thống quản lý thực tế, menu của chương trình được điều khiển bằng:
+Tất cả dữ liệu chỉ được lưu tạm thời trong bộ nhớ của chương trình bằng các **List trong Python**.
 
-* Phím mũi tên lên `↑`.
-* Phím mũi tên xuống `↓`.
-* Phím `Enter`.
+Khi chương trình kết thúc, toàn bộ dữ liệu của phiên hiện tại sẽ bị xóa.
 
 ---
 
-# 2. Mục tiêu của project
+## 🎯 2. Mục tiêu dự án
 
-## 2.1. Mục tiêu chính
+Mục tiêu chính của dự án là áp dụng các kiến thức Python cơ bản để xây dựng một hệ thống tương đối lớn và được chia thành nhiều module.
 
-Xây dựng một chương trình Python có khả năng quản lý và theo dõi toàn bộ thông tin liên quan đến **một chiếc ô tô cá nhân**.
+Thông qua dự án, sinh viên có thể thực hành:
 
-## 2.2. Mục tiêu học tập
-
-Project giúp sinh viên áp dụng các kiến thức Python cơ bản:
-
-* Biến và kiểu dữ liệu.
+* Biến và các kiểu dữ liệu cơ bản.
 * List.
-* String.
-* Number.
 * Câu lệnh điều kiện.
 * Vòng lặp.
 * Hàm.
-* Đọc và ghi file JSON.
 * Xử lý dữ liệu nhập từ người dùng.
+* Xử lý chuỗi.
 * Chia chương trình thành nhiều module.
-* Làm việc nhóm và quản lý source code bằng GitHub.
+* Xây dựng ứng dụng giao diện dòng lệnh.
+* Làm việc nhóm và quản lý mã nguồn bằng GitHub.
 
 ---
 
-# 3. Các giới hạn kỹ thuật của project
+## 🚘 3. Ý tưởng của dự án
 
-Để đảm bảo phù hợp với sinh viên mới học Python, project tuân thủ các giới hạn sau:
+CarCare Manager quản lý **một chiếc xe duy nhất trong một phiên chạy chương trình**.
 
-## Được sử dụng
+Luồng hoạt động của hệ thống:
 
-* `list`
-* `str`
-* `int`
-* `float`
-* `if / elif / else`
-* `for`
-* `while`
-* `def`
-* `input()`
-* `print()`
-* File JSON
-* Module Python cơ bản
+```text
+Khởi động chương trình
+        ↓
+Khởi tạo phiên quản lý xe
+        ↓
+Quản lý và theo dõi xe
+        ↓
+Xem báo cáo phiên sử dụng
+        ↓
+Thoát chương trình
+        ↓
+Dữ liệu bị xóa
+```
 
-## Không sử dụng
+Mỗi lần chạy chương trình là một **phiên quản lý mới**.
 
-* OOP.
+---
+
+## 🧠 4. Phạm vi kỹ thuật
+
+Dự án được thiết kế dành cho **sinh viên mới học lập trình Python**.
+
+### Các kiến thức được sử dụng
+
+* Python.
+* List.
+* String.
+* Integer.
+* Float.
+* Câu lệnh `if`, `elif`, `else`.
+* Vòng lặp `for`.
+* Vòng lặp `while`.
+* Hàm.
+* Module.
+* Xử lý input từ người dùng.
+* Giao diện dòng lệnh.
+
+### ❌ Các kiến thức không sử dụng
+
+Để phù hợp với mục tiêu Python cơ bản, dự án **không sử dụng**:
+
+* Lập trình hướng đối tượng (OOP).
 * Class.
 * Dictionary.
 * Set.
-* Database.
+* Cơ sở dữ liệu.
+* File JSON.
+* Đọc và ghi file.
 * API.
+* Web Framework.
+* Artificial Intelligence.
 * Machine Learning.
-* AI.
 * Thuật toán nâng cao.
-* Framework.
-* Web application.
 
-> Toàn bộ dữ liệu trong chương trình được biểu diễn và xử lý bằng **List**.
+> Dự án tập trung vào việc sử dụng các kiến thức Python cơ bản để xây dựng một hệ thống có nhiều chức năng và được chia thành nhiều module.
 
 ---
 
-# 4. Ý tưởng tổng thể của hệ thống
+## 🚗 5. Phạm vi quản lý xe
 
-CarCare Manager chỉ quản lý **một chiếc xe duy nhất**.
+Hệ thống chỉ quản lý **một chiếc xe duy nhất**.
+
+Hệ thống không hỗ trợ:
+
+* Quản lý nhiều xe.
+* Quản lý đội xe.
+* Tài khoản người dùng.
+* Nhiều người dùng.
+
+Thông tin xe được khởi tạo khi chương trình bắt đầu.
 
 Ví dụ:
 
-> VinFast VF MPV7
-
-Hệ thống hoạt động theo mô hình:
-
 ```text
-Người dùng
-    ↓
-Menu điều khiển ↑ ↓ Enter
-    ↓
-Chọn module
-    ↓
-Nhập dữ liệu
-    ↓
-Xử lý bằng Python
-    ↓
-Lưu dữ liệu vào JSON
-    ↓
-Hiển thị thông tin / cảnh báo / báo cáo
+Tên xe: VF MPV7
+Loại xe: Xe điện
+Biển số: 71A-XXXXX
 ```
 
 ---
 
-# 5. Cấu trúc dữ liệu chính
+# 🧩 6. Các module chính
 
-Do project không sử dụng Dictionary, thông tin xe được lưu bằng **List**.
+CarCare Manager bao gồm các module:
 
-## 5.1. Thông tin xe
+* 🚗 Quản lý thông tin xe.
+* 🛣️ Quản lý chuyến đi.
+* ⚡ Theo dõi năng lượng.
+* 🔧 Quản lý bảo dưỡng.
+* 💰 Quản lý chi phí.
+* 🔍 Kiểm tra tình trạng xe.
+* ⚠️ Quản lý vấn đề và cảnh báo.
+* 🧰 Quản lý phụ kiện.
+* 📊 Báo cáo phiên sử dụng.
+
+---
+
+# 🧩 7. Chi tiết các module
+
+## 7.1. Module Quản lý thông tin xe
+
+Module này quản lý các thông tin cơ bản của xe.
+
+### Các chức năng chính
+
+* Xem thông tin xe.
+* Cập nhật thông tin xe.
+* Cập nhật số kilomet hiện tại.
+
+### Thông tin có thể quản lý
+
+```text
+Tên xe
+Loại xe
+Biển số
+Số kilomet hiện tại
+Năm sản xuất
+```
+
+### Ví dụ
+
+```text
+========== THÔNG TIN XE ==========
+
+Tên xe: VF MPV7
+Loại xe: Xe điện
+Biển số: 71A-XXXXX
+Số kilomet: 1250 km
+Năm sản xuất: 2026
+```
+
+---
+
+## 7.2. Module Quản lý chuyến đi
+
+Module này quản lý lịch sử các chuyến đi của xe trong phiên hiện tại.
+
+### Các chức năng chính
+
+* Thêm chuyến đi.
+* Xem lịch sử chuyến đi.
+* Tính tổng quãng đường.
+* Tìm chuyến đi dài nhất.
+* Xóa chuyến đi.
+
+### Thông tin một chuyến đi
+
+```text
+Ngày
+Điểm bắt đầu
+Điểm đến
+Quãng đường
+Chế độ lái
+```
+
+### Ví dụ
+
+```text
+Ngày: 17/07/2026
+Điểm đi: Bến Tre
+Điểm đến: Thành phố Hồ Chí Minh
+Quãng đường: 120 km
+Chế độ lái: Normal
+```
+
+### Cách lưu dữ liệu
+
+Mỗi chuyến đi được lưu dưới dạng một `List`.
+
+```python
+trip = [
+    "17/07/2026",
+    "Bến Tre",
+    "Thành phố Hồ Chí Minh",
+    120,
+    "Normal"
+]
+```
+
+Các chuyến đi được quản lý trong một `List` lớn hơn.
+
+```python
+trips = [
+    [
+        "17/07/2026",
+        "Bến Tre",
+        "Thành phố Hồ Chí Minh",
+        120,
+        "Normal"
+    ]
+]
+```
+
+---
+
+## 7.3. Module Theo dõi năng lượng
+
+Module này theo dõi mức tiêu thụ năng lượng của xe.
+
+Hệ thống hỗ trợ hai loại xe:
+
+* Xe điện.
+* Xe sử dụng nhiên liệu.
+
+### Đối với xe điện
+
+Hệ thống quản lý:
+
+* Phần trăm pin ban đầu.
+* Phần trăm pin sau chuyến đi.
+* Quãng đường di chuyển.
+
+Ví dụ:
+
+```text
+Pin ban đầu: 80%
+Pin sau chuyến đi: 55%
+Quãng đường: 120 km
+```
+
+Hệ thống tính lượng pin đã sử dụng:
+
+```text
+Pin đã sử dụng = Pin ban đầu - Pin sau chuyến đi
+```
+
+### Đối với xe sử dụng nhiên liệu
+
+Hệ thống quản lý:
+
+* Lượng nhiên liệu đã sử dụng.
+* Quãng đường di chuyển.
+
+Công thức tiêu thụ nhiên liệu:
+
+```text
+Mức tiêu thụ = Lượng nhiên liệu / Quãng đường × 100
+```
+
+---
+
+## 7.4. Module Quản lý bảo dưỡng
+
+Module này quản lý lịch sử bảo dưỡng của xe.
+
+### Các chức năng chính
+
+* Thêm lịch sử bảo dưỡng.
+* Xem lịch sử bảo dưỡng.
+* Xóa lịch sử bảo dưỡng.
+* Kiểm tra cảnh báo bảo dưỡng.
+
+### Thông tin bảo dưỡng
+
+```text
+Hạng mục bảo dưỡng
+Ngày thực hiện
+Số kilomet
+Chi phí
+```
+
+### Ví dụ
+
+```text
+Hạng mục: Kiểm tra lốp
+Ngày: 17/07/2026
+Số kilomet: 1000 km
+Chi phí: 500000 VND
+```
+
+Hệ thống có thể so sánh số kilomet hiện tại với lần bảo dưỡng gần nhất.
+
+Nếu xe đã đi quá một khoảng kilomet được quy định, hệ thống hiển thị cảnh báo:
+
+```text
+⚠️ XE CÓ THỂ CẦN ĐƯỢC BẢO DƯỠNG
+```
+
+---
+
+## 7.5. Module Quản lý chi phí
+
+Module này quản lý các khoản chi phí liên quan đến xe.
+
+### Các nhóm chi phí
+
+* Năng lượng.
+* Bảo dưỡng.
+* Bảo hiểm.
+* Phụ kiện.
+* Khác.
+
+### Các chức năng chính
+
+* Thêm chi phí.
+* Xem lịch sử chi phí.
+* Tính tổng chi phí.
+* Tính chi phí theo nhóm.
+* Xóa chi phí.
+
+### Ví dụ
+
+```text
+Mô tả: Sạc xe
+Loại chi phí: Năng lượng
+Số tiền: 120000 VND
+```
+
+Hệ thống có thể tính tổng số tiền đã chi trong phiên hiện tại.
+
+---
+
+## 7.6. Module Kiểm tra tình trạng xe
+
+Module này mô phỏng việc kiểm tra một số bộ phận của xe.
+
+### Các bộ phận có thể kiểm tra
+
+* Lốp xe.
+* Hệ thống phanh.
+* Đèn xe.
+* Điều hòa.
+* Pin hoặc hệ thống năng lượng.
+
+Mỗi bộ phận có thể có một trạng thái:
+
+```text
+OK
+WARNING
+ERROR
+```
+
+### Ví dụ
+
+```text
+========== KIỂM TRA XE ==========
+
+Lốp xe          [OK]
+Phanh           [OK]
+Đèn xe          [ERROR]
+Điều hòa        [OK]
+Pin             [OK]
+```
+
+Nếu phát hiện trạng thái `ERROR`, hệ thống hiển thị cảnh báo.
+
+---
+
+## 7.7. Module Quản lý vấn đề và cảnh báo
+
+Module này quản lý các vấn đề phát sinh trong quá trình sử dụng xe.
+
+### Các chức năng chính
+
+* Thêm vấn đề.
+* Xem các vấn đề đang tồn tại.
+* Đóng vấn đề.
+* Xóa vấn đề.
+
+### Thông tin vấn đề
+
+```text
+Mô tả vấn đề
+Mức độ nghiêm trọng
+Trạng thái
+```
+
+### Ví dụ
+
+```text
+Vấn đề: Đèn xe bị lỗi
+Mức độ: HIGH
+Trạng thái: OPEN
+```
+
+Hệ thống có thể hiển thị các vấn đề đang mở:
+
+```text
+⚠️ CÁC VẤN ĐỀ ĐANG TỒN TẠI
+```
+
+---
+
+## 7.8. Module Quản lý phụ kiện
+
+Module này quản lý các phụ kiện được lắp đặt hoặc sử dụng trên xe.
+
+### Ví dụ phụ kiện
+
+* Camera hành trình.
+* Phim cách nhiệt.
+* Lót sàn.
+* Camera 360.
+* Các phụ kiện khác.
+
+### Các chức năng chính
+
+* Thêm phụ kiện.
+* Xem danh sách phụ kiện.
+* Tính tổng chi phí phụ kiện.
+* Xóa phụ kiện.
+
+### Ví dụ
+
+```text
+Tên phụ kiện: Camera hành trình
+Chi phí: 1500000 VND
+```
+
+---
+
+## 7.9. Module Báo cáo phiên sử dụng
+
+Module này tổng hợp toàn bộ thông tin của xe trong phiên hiện tại.
+
+### Nội dung báo cáo
+
+* Thông tin xe.
+* Tổng số chuyến đi.
+* Tổng quãng đường.
+* Tổng mức tiêu thụ năng lượng.
+* Tổng chi phí.
+* Số lần bảo dưỡng.
+* Số vấn đề đang tồn tại.
+* Số lượng phụ kiện.
+* Trạng thái tổng quan của xe.
+
+### Ví dụ
+
+```text
+╔════════════════════════════════════╗
+║       BÁO CÁO PHIÊN SỬ DỤNG        ║
+╠════════════════════════════════════╣
+║ Xe: VF MPV7                         ║
+║                                    ║
+║ Tổng chuyến đi: 5                   ║
+║ Tổng quãng đường: 620 km            ║
+║ Tổng chi phí: 1,200,000 VND         ║
+║                                    ║
+║ Lịch sử bảo dưỡng: 2                ║
+║ Vấn đề đang tồn tại: 1              ║
+║ Số phụ kiện: 4                      ║
+║                                    ║
+║ Trạng thái xe: WARNING              ║
+╚════════════════════════════════════╝
+```
+
+---
+
+# 🖥️ 8. Giao diện chương trình
+
+CarCare Manager sử dụng giao diện dòng lệnh.
+
+Menu chính được điều khiển bằng:
+
+```text
+↑       Di chuyển lên
+↓       Di chuyển xuống
+Enter   Chọn
+```
+
+### Ví dụ menu chính
+
+```text
+╔════════════════════════════════════╗
+║          CARCARE MANAGER            ║
+╠════════════════════════════════════╣
+║ > Quản lý thông tin xe              ║
+║   Quản lý chuyến đi                 ║
+║   Theo dõi năng lượng               ║
+║   Quản lý bảo dưỡng                 ║
+║   Quản lý chi phí                   ║
+║   Kiểm tra tình trạng xe            ║
+║   Vấn đề và cảnh báo                ║
+║   Quản lý phụ kiện                  ║
+║   Báo cáo phiên sử dụng             ║
+║   Thoát                             ║
+╚════════════════════════════════════╝
+```
+
+Ký hiệu `>` thể hiện mục đang được chọn.
+
+---
+
+# 💾 9. Cách quản lý dữ liệu
+
+CarCare Manager sử dụng **dữ liệu tạm thời trong bộ nhớ chương trình**.
+
+Hệ thống **không sử dụng**:
+
+* File JSON.
+* File TXT.
+* Cơ sở dữ liệu.
+* Bộ nhớ ngoài.
+
+Ví dụ:
 
 ```python
 car = [
@@ -151,39 +560,39 @@ car = [
     1250,
     2026
 ]
+
+trips = []
+
+energy = []
+
+maintenance = []
+
+expenses = []
+
+inspections = []
+
+issues = []
+
+accessories = []
 ```
 
-Quy ước dữ liệu:
+Tất cả dữ liệu chỉ tồn tại khi chương trình đang chạy.
+
+Khi người dùng thoát chương trình:
 
 ```text
-car[0] → Tên xe
-car[1] → Loại xe
-car[2] → Biển số
-car[3] → Số km hiện tại
-car[4] → Năm sản xuất
+Thoát chương trình
+        ↓
+Kết thúc phiên
+        ↓
+Dữ liệu bị xóa
 ```
 
-Để tránh việc thành viên trong nhóm quên vị trí dữ liệu, có thể ghi chú:
-
-```python
-CAR_NAME = 0
-CAR_TYPE = 1
-CAR_LICENSE = 2
-CAR_KM = 3
-CAR_YEAR = 4
-```
-
-Ví dụ:
-
-```python
-print(car[CAR_NAME])
-```
-
-Cách này vẫn chỉ sử dụng kiến thức Python cơ bản.
+Mỗi lần chạy lại chương trình, hệ thống bắt đầu với một phiên mới và dữ liệu rỗng.
 
 ---
 
-# 6. Cấu trúc thư mục GitHub
+# 📁 10. Cấu trúc dự án
 
 ```text
 CarCare-Manager/
@@ -199,889 +608,165 @@ CarCare-Manager/
 ├── inspection.py
 ├── issue.py
 ├── accessory.py
-├── report.py
-│
-├── file_handler.py
-│
-├── data/
-│   ├── car.json
-│   ├── trips.json
-│   ├── energy.json
-│   ├── maintenance.json
-│   ├── expenses.json
-│   ├── inspections.json
-│   ├── issues.json
-│   └── accessories.json
-│
-└── README.md
+└── report.py
 ```
 
 ---
 
-# 7. MODULE MENU CONTROL
-
-## 7.1. Mục đích
-
-Đây là module điều khiển giao diện chính của hệ thống.
-
-Người dùng không cần nhập số lựa chọn.
-
-Ví dụ:
-
-```text
-╔══════════════════════════════════╗
-║        CARCARE MANAGER            ║
-╠══════════════════════════════════╣
-║ > Thông tin xe                    ║
-║   Quản lý hành trình              ║
-║   Theo dõi năng lượng             ║
-║   Bảo dưỡng                       ║
-║   Chi phí                         ║
-║   Kiểm tra xe                     ║
-║   Vấn đề và cảnh báo              ║
-║   Phụ kiện                        ║
-║   Báo cáo                         ║
-║   Thoát                            ║
-╚══════════════════════════════════╝
-```
-
-Người dùng:
-
-```text
-↑ ↓ → Di chuyển
-Enter → Chọn
-```
-
-## 7.2. Hướng code
-
-```python
-def show_menu(options):
-    selected = 0
-
-    while True:
-        for i in range(len(options)):
-            if i == selected:
-                print("> " + options[i])
-            else:
-                print("  " + options[i])
-
-        key = get_key()
-
-        if key == "UP":
-            selected = selected - 1
-
-        elif key == "DOWN":
-            selected = selected + 1
-
-        elif key == "ENTER":
-            return selected
-
-        if selected < 0:
-            selected = len(options) - 1
-
-        if selected >= len(options):
-            selected = 0
-```
-
-Với Linux, nhóm có thể dùng `curses`.
-
----
-
-# 8. MODULE 1 – VEHICLE INFORMATION
-
-## Quản lý thông tin xe
-
-Đây là module quản lý thông tin cơ bản của chiếc xe.
-
-## Chức năng
-
-```text
-Thông tin xe
-│
-├── Xem thông tin xe
-├── Cập nhật số km
-├── Cập nhật thông tin xe
-└── Xóa dữ liệu xe
-```
-
-## Dữ liệu
-
-```python
-car = [
-    "VF MPV7",
-    "Electric",
-    "71A-XXXXX",
-    1250,
-    2026
-]
-```
-
-## Ví dụ hiển thị
-
-```text
-========== VEHICLE INFORMATION ==========
-
-Tên xe: VF MPV7
-Loại xe: Electric
-Biển số: 71A-XXXXX
-Số km hiện tại: 1250 km
-Năm sản xuất: 2026
-```
-
-## Hướng code
-
-```python
-def show_car(car):
-    print("Ten xe:", car[0])
-    print("Loai xe:", car[1])
-    print("Bien so:", car[2])
-    print("So km:", car[3])
-    print("Nam san xuat:", car[4])
-```
-
----
-
-# 9. MODULE 2 – TRIP MANAGEMENT
-
-## Quản lý hành trình
-
-Module theo dõi lịch sử các chuyến đi của xe.
-
-## Chức năng
-
-```text
-Hành trình
-│
-├── Thêm hành trình
-├── Xem lịch sử
-├── Tính tổng quãng đường
-├── Tìm chuyến đi xa nhất
-└── Xóa hành trình
-```
-
-## Dữ liệu
-
-```python
-trips = [
-    ["17/07/2026", "Ben Tre", "TPHCM", 120, "Normal"],
-    ["18/07/2026", "TPHCM", "Cu Chi", 80, "Eco"]
-]
-```
-
-Quy ước:
-
-```text
-trip[0] → Ngày
-trip[1] → Điểm đi
-trip[2] → Điểm đến
-trip[3] → Quãng đường
-trip[4] → Chế độ lái
-```
-
-## Tính tổng quãng đường
-
-```python
-total = 0
-
-for trip in trips:
-    total = total + trip[3]
-```
-
-## Tìm chuyến xa nhất
-
-```python
-max_distance = 0
-max_trip = []
-
-for trip in trips:
-    if trip[3] > max_distance:
-        max_distance = trip[3]
-        max_trip = trip
-```
-
----
-
-# 10. MODULE 3 – ENERGY MONITORING
-
-## Theo dõi năng lượng
-
-Module theo dõi mức tiêu thụ năng lượng của xe.
-
-Project có thể hỗ trợ hai loại phương tiện:
-
-```text
-Electric
-Gasoline
-```
-
-## Trường hợp xe điện
-
-Dữ liệu:
-
-```python
-energy = [
-    [80, 55, 120],
-    [90, 70, 100]
-]
-```
-
-Quy ước:
-
-```text
-energy[0] → Một lần sử dụng
-energy[0][0] → Pin đầu chuyến
-energy[0][1] → Pin cuối chuyến
-energy[0][2] → Quãng đường
-```
-
-## Tính pin tiêu thụ
-
-```python
-used = start_battery - end_battery
-```
-
-## Ví dụ
-
-```text
-Pin đầu chuyến: 80%
-Pin cuối chuyến: 55%
-Quãng đường: 120 km
-
-Đã sử dụng: 25% pin
-```
-
-## Trường hợp xe xăng
-
-```python
-consumption = fuel / distance * 100
-```
-
-Ví dụ:
-
-```text
-30 L
-400 km
-
-Mức tiêu thụ: 7.5 L/100km
-```
-
----
-
-# 11. MODULE 4 – MAINTENANCE MANAGEMENT
-
-## Quản lý bảo dưỡng
-
-Module theo dõi lịch sử bảo dưỡng của xe.
-
-## Chức năng
-
-```text
-Bảo dưỡng
-│
-├── Thêm lịch sử bảo dưỡng
-├── Xem lịch sử
-├── Xóa lịch sử
-└── Kiểm tra cảnh báo bảo dưỡng
-```
-
-## Dữ liệu
-
-```python
-maintenance = [
-    ["Kiem tra lop", "17/07/2026", 1000, 500000],
-    ["Kiem tra phanh", "20/07/2026", 5000, 300000]
-]
-```
-
-Quy ước:
-
-```text
-maintenance[0] → Tên hạng mục
-maintenance[1] → Ngày
-maintenance[2] → Số km
-maintenance[3] → Chi phí
-```
-
-## Cảnh báo
-
-```python
-distance = current_km - last_maintenance_km
-
-if distance >= 10000:
-    print("CAN BAO DUONG")
-```
-
----
-
-# 12. MODULE 5 – EXPENSE MANAGEMENT
-
-## Quản lý chi phí
-
-Module theo dõi các khoản chi phí liên quan đến xe.
-
-## Các loại chi phí
-
-```text
-Energy
-Maintenance
-Insurance
-Accessory
-Other
-```
-
-## Dữ liệu
-
-```python
-expenses = [
-    ["Sac xe", "Energy", 120000],
-    ["Bao duong", "Maintenance", 500000],
-    ["Bao hiem", "Insurance", 8000000]
-]
-```
-
-## Chức năng
-
-```text
-Chi phí
-│
-├── Thêm chi phí
-├── Xem lịch sử
-├── Tính tổng chi phí
-├── Tính chi phí theo loại
-└── Xóa chi phí
-```
-
-## Tính tổng
-
-```python
-total = 0
-
-for expense in expenses:
-    total = total + expense[2]
-```
-
-## Tính chi phí trung bình trên mỗi km
-
-```python
-average = total_expense / total_distance
-```
-
----
-
-# 13. MODULE 6 – VEHICLE INSPECTION
-
-## Kiểm tra tình trạng xe
-
-Module mô phỏng việc kiểm tra tình trạng các bộ phận của xe.
-
-## Các hạng mục
-
-```python
-items = [
-    "Lop xe",
-    "Phanh",
-    "Den",
-    "Dieu hoa",
-    "Pin"
-]
-```
-
-## Trạng thái
-
-```python
-status = [
-    "OK",
-    "OK",
-    "ERROR",
-    "OK",
-    "OK"
-]
-```
-
-Hai List có cùng vị trí:
-
-```text
-items[0] ↔ status[0]
-Lốp xe   ↔ OK
-```
-
-## Kiểm tra lỗi
-
-```python
-for i in range(len(items)):
-    if status[i] == "ERROR":
-        print("Phat hien loi:", items[i])
-```
-
-## Ví dụ
-
-```text
-========== VEHICLE INSPECTION ==========
-
-Lop xe       [OK]
-Phanh        [OK]
-Den          [ERROR]
-Dieu hoa     [OK]
-Pin          [OK]
-
-⚠️ Phát hiện vấn đề ở Đèn xe
-```
-
----
-
-# 14. MODULE 7 – ISSUE & ALERT MANAGEMENT
-
-## Quản lý vấn đề và cảnh báo
-
-Đây là module mới giúp project có tính "kiểm soát xe" rõ hơn.
-
-## Ý tưởng
-
-Người dùng có thể ghi nhận các vấn đề phát sinh.
-
-Ví dụ:
-
-```text
-Đèn xe bị lỗi
-Điều hòa hoạt động không tốt
-Lốp xe có dấu hiệu bất thường
-```
-
-## Dữ liệu
-
-```python
-issues = [
-    ["Den xe bi loi", "High", "Open"],
-    ["Dieu hoa hoi yeu", "Low", "Closed"]
-]
-```
-
-Quy ước:
-
-```text
-issue[0] → Nội dung
-issue[1] → Mức độ
-issue[2] → Trạng thái
-```
-
-## Chức năng
-
-```text
-Vấn đề
-│
-├── Thêm vấn đề
-├── Xem vấn đề
-├── Đóng vấn đề
-└── Xóa vấn đề
-```
-
-## Ví dụ cảnh báo
-
-```text
-⚠️ ACTIVE VEHICLE ISSUES
-
-1. Đèn xe bị lỗi
-Mức độ: HIGH
-Trạng thái: OPEN
-```
-
----
-
-# 15. MODULE 8 – ACCESSORY MANAGEMENT
-
-## Quản lý phụ kiện xe
-
-Module này giúp theo dõi các phụ kiện hoặc trang bị đã lắp trên xe.
-
-Ví dụ:
-
-```text
-Camera hành trình
-Phim cách nhiệt
-Lót sàn
-Camera 360
-Sạc
-```
-
-## Dữ liệu
-
-```python
-accessories = [
-    ["Camera hanh trinh", 1500000],
-    ["Phim cach nhiet", 8700000],
-    ["Lot san", 500000]
-]
-```
-
-## Chức năng
-
-```text
-Phụ kiện
-│
-├── Thêm phụ kiện
-├── Xem danh sách
-├── Tính tổng chi phí
-└── Xóa phụ kiện
-```
-
-Module này **rất hợp với chủ đề ô tô cá nhân** và giúp project lớn hơn.
-
----
-
-# 16. MODULE 9 – REPORT & DASHBOARD
-
-## Báo cáo tổng hợp
-
-Đây là module tổng hợp dữ liệu từ toàn bộ hệ thống.
-
-## Ví dụ
-
-```text
-╔════════════════════════════════════╗
-║        CARCARE DASHBOARD            ║
-╠════════════════════════════════════╣
-║ Vehicle: VF MPV7                    ║
-║                                    ║
-║ Total Distance: 1,250 km            ║
-║ Total Trips: 12                     ║
-║ Total Expense: 8,750,000 VND        ║
-║ Maintenance Records: 3             ║
-║ Active Issues: 1                    ║
-║ Accessories: 4                      ║
-║                                    ║
-║ Vehicle Status: WARNING             ║
-╚════════════════════════════════════╝
-```
-
-## Các báo cáo
-
-### Báo cáo sử dụng
-
-* Tổng số chuyến.
-* Tổng quãng đường.
-* Chuyến đi xa nhất.
-
-### Báo cáo chi phí
-
-* Tổng chi phí.
-* Chi phí bảo dưỡng.
-* Chi phí năng lượng.
-* Chi phí phụ kiện.
-
-### Báo cáo tình trạng
-
-* Số lỗi.
-* Số vấn đề đang mở.
-* Trạng thái xe.
-
----
-
-# 17. MODULE FILE HANDLER
-
-## Quản lý file JSON
-
-Module này chịu trách nhiệm đọc và ghi dữ liệu.
-
-## Đọc dữ liệu
-
-```python
-import json
-
-def load_data(filename):
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
-
-        return data
-
-    except FileNotFoundError:
-        return []
-```
-
-## Ghi dữ liệu
-
-```python
-def save_data(filename, data):
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
-```
-
----
-
-# 18. Thiết kế file JSON
-
-## car.json
-
-```json
-[
-    "VF MPV7",
-    "Electric",
-    "71A-XXXXX",
-    1250,
-    2026
-]
-```
-
-## trips.json
-
-```json
-[
-    [
-        "17/07/2026",
-        "Ben Tre",
-        "TPHCM",
-        120,
-        "Normal"
-    ]
-]
-```
-
-## energy.json
-
-```json
-[
-    [
-        80,
-        55,
-        120
-    ]
-]
-```
-
-## maintenance.json
-
-```json
-[
-    [
-        "Kiem tra lop",
-        "17/07/2026",
-        1000,
-        500000
-    ]
-]
-```
-
-## expenses.json
-
-```json
-[
-    [
-        "Sac xe",
-        "Energy",
-        120000
-    ]
-]
-```
-
-## inspections.json
-
-```json
-[
-    [
-        "Lop xe",
-        "OK"
-    ],
-    [
-        "Phanh",
-        "OK"
-    ],
-    [
-        "Den",
-        "ERROR"
-    ]
-]
-```
-
----
-
-# 19. Luồng hoạt động của main.py
+# 🔄 11. Luồng hoạt động của chương trình
 
 ```text
 START
   ↓
-Load data from JSON
+Khởi tạo thông tin xe
   ↓
-Show Main Menu
+Khởi tạo các List dữ liệu
   ↓
-User presses ↑ ↓ Enter
+Hiển thị Menu chính
   ↓
-Select module
+Người dùng chọn module
   ↓
-Execute module
+Thực hiện chức năng
   ↓
-Update data
+Quay lại Menu chính
   ↓
-Save data to JSON
+Người dùng chọn Thoát
   ↓
-Return Main Menu
-  ↓
-Exit?
+Hiển thị Báo cáo phiên
   ↓
 END
 ```
 
-## Hướng code
+---
 
-```python
-from file_handler import load_data, save_data
-from menu import show_menu
+# 🛠️ 12. Kế hoạch phát triển
 
-car = load_data("data/car.json")
-trips = load_data("data/trips.json")
+## Tuần 1 – Xây dựng hệ thống cơ bản
 
-while True:
+* Tạo GitHub Repository.
+* Thiết kế cấu trúc project.
+* Xây dựng luồng chương trình chính.
+* Xây dựng menu điều hướng bằng phím mũi tên.
+* Xây dựng module quản lý thông tin xe.
 
-    options = [
-        "Vehicle Information",
-        "Trip Management",
-        "Energy Monitoring",
-        "Maintenance",
-        "Expense",
-        "Vehicle Inspection",
-        "Issues",
-        "Accessories",
-        "Report",
-        "Exit"
-    ]
+### Kết quả mong đợi
 
-    choice = show_menu(options)
+Chương trình có thể:
 
-    if choice == 0:
-        pass
-
-    elif choice == 1:
-        pass
-
-    elif choice == 2:
-        pass
-
-    elif choice == 9:
-        break
-
-save_data("data/car.json", car)
-save_data("data/trips.json", trips)
-```
+* Khởi động một phiên quản lý xe.
+* Hiển thị menu chính.
+* Điều hướng bằng phím lên, xuống.
+* Chọn chức năng bằng Enter.
+* Xem thông tin xe.
 
 ---
 
-# 20. Kế hoạch thực hiện trong 4 tuần
+## Tuần 2 – Quản lý sử dụng và bảo dưỡng
 
-## TUẦN 1 – CORE SYSTEM
+* Xây dựng module Quản lý chuyến đi.
+* Xây dựng module Theo dõi năng lượng.
+* Xây dựng module Quản lý bảo dưỡng.
 
-### Mục tiêu
+### Kết quả mong đợi
 
-Xây dựng nền tảng chương trình.
+Hệ thống có thể quản lý:
 
-### Công việc
-
-* Tạo repository GitHub.
-* Tạo cấu trúc thư mục.
-* Xây dựng `menu.py`.
-* Xây dựng `file_handler.py`.
-* Đọc và ghi JSON.
-* Xây dựng module thông tin xe.
-
-### Kết quả
-
-Có thể:
-
-```text
-Mở chương trình
-↓
-Di chuyển bằng ↑ ↓
-↓
-Enter
-↓
-Xem thông tin xe
-```
+* Các chuyến đi.
+* Quãng đường.
+* Mức tiêu thụ năng lượng.
+* Lịch sử bảo dưỡng.
 
 ---
 
-## TUẦN 2 – VEHICLE MANAGEMENT
+## Tuần 3 – Quản lý và kiểm soát xe
 
-### Công việc
+* Xây dựng module Quản lý chi phí.
+* Xây dựng module Kiểm tra tình trạng xe.
+* Xây dựng module Vấn đề và cảnh báo.
+* Xây dựng module Quản lý phụ kiện.
 
-* Trip Management.
-* Energy Monitoring.
-* Maintenance Management.
+### Kết quả mong đợi
 
-### Kết quả
+Hệ thống có thể quản lý:
 
-Hệ thống có thể theo dõi:
-
-```text
-Hành trình
-Năng lượng
-Bảo dưỡng
-```
+* Chi phí sử dụng xe.
+* Tình trạng các bộ phận.
+* Các vấn đề phát sinh.
+* Phụ kiện của xe.
 
 ---
 
-## TUẦN 3 – VEHICLE CONTROL
+## Tuần 4 – Tích hợp và kiểm thử
 
-### Công việc
-
-* Expense Management.
-* Vehicle Inspection.
-* Issue & Alert Management.
-* Accessory Management.
-
-### Kết quả
-
-Hệ thống có thể quản lý gần như toàn bộ quá trình sử dụng xe.
-
----
-
-## TUẦN 4 – INTEGRATION & REPORT
-
-### Công việc
-
-* Dashboard.
-* Báo cáo.
-* Kiểm thử.
+* Xây dựng module Báo cáo phiên sử dụng.
+* Tích hợp tất cả các module.
+* Kiểm thử toàn bộ hệ thống.
 * Sửa lỗi.
-* Viết README.
-* Hoàn thiện GitHub.
-* Chuẩn bị demo.
+* Cải thiện giao diện.
+* Hoàn thiện README.
+* Chuẩn bị demo project.
 
 ---
 
-# 21. Phân chia công việc nhóm
+# 🧪 13. Kiểm thử
 
-## Thành viên 1 – Core System
+Hệ thống được kiểm thử bằng phương pháp **kiểm thử chức năng thủ công**.
 
-* `main.py`
-* `menu.py`
-* `file_handler.py`
+Mentor hoặc người dùng sẽ khởi động chương trình và thao tác trực tiếp thông qua giao diện menu.
 
-## Thành viên 2 – Vehicle Usage
+### Một số tình huống kiểm thử
 
-* `car.py`
-* `trip.py`
-* `energy.py`
+* Nhập thông tin xe hợp lệ.
+* Thêm nhiều chuyến đi.
+* Tính tổng quãng đường.
+* Thêm chi phí.
+* Tính tổng chi phí.
+* Thêm lịch sử bảo dưỡng.
+* Kiểm tra cảnh báo bảo dưỡng.
+* Thêm vấn đề cho xe.
+* Kiểm tra trạng thái xe.
+* Thêm và xóa phụ kiện.
+* Kiểm tra báo cáo phiên sử dụng.
+* Thoát chương trình và khởi động lại.
 
-## Thành viên 3 – Vehicle Maintenance
-
-* `maintenance.py`
-* `inspection.py`
-* `issue.py`
-
-## Thành viên 4 – Cost & Report
-
-* `expense.py`
-* `accessory.py`
-* `report.py`
+Do hệ thống hoạt động theo mô hình phiên sử dụng, mỗi lần khởi động chương trình sẽ bắt đầu với dữ liệu mới.
 
 ---
 
-# 22. Kết luận
+# 👥 14. Phân công nhóm
 
-CarCare Manager là một project Python cơ bản nhưng có quy mô tương đối lớn, tập trung vào việc quản lý duy nhất một chiếc ô tô cá nhân.
+| Thành viên   | Phụ trách                             |
+| ------------ | ------------------------------------- |
+| Thành viên 1 | Hệ thống chính và Menu                |
+| Thành viên 2 | Thông tin xe, Chuyến đi và Năng lượng |
+| Thành viên 3 | Bảo dưỡng, Kiểm tra xe và Vấn đề      |
+| Thành viên 4 | Chi phí, Phụ kiện và Báo cáo          |
 
-Project không sử dụng OOP, Dictionary, Set hay các thuật toán nâng cao. Thay vào đó, hệ thống sử dụng các kiến thức Python nền tảng như List, vòng lặp, điều kiện, hàm và đọc ghi JSON.
+---
 
-Việc chia hệ thống thành nhiều module giúp sinh viên hiểu được cách tổ chức một chương trình lớn hơn thay vì viết toàn bộ code trong một file duy nhất.
+# 🎓 15. Mục đích học tập
 
-Đặc biệt, hệ thống sử dụng giao diện menu điều khiển bằng phím mũi tên và Enter, giúp project có tính tương tác cao hơn và gần với một ứng dụng quản lý thực tế.
+CarCare Manager được xây dựng như một project Python dành cho sinh viên mới bắt đầu học lập trình.
 
-**CarCare Manager mô phỏng quá trình người dùng theo dõi, quản lý và kiểm soát toàn bộ thông tin sử dụng của một chiếc ô tô cá nhân.**
+Dự án minh họa cách kết hợp các kiến thức Python cơ bản để xây dựng một hệ thống có nhiều chức năng và được chia thành nhiều module.
+
+Thông qua project, sinh viên có thể cải thiện:
+
+* Tư duy lập trình Python.
+* Kỹ năng sử dụng List.
+* Kỹ năng xây dựng hàm.
+* Kỹ năng chia module.
+* Kỹ năng xây dựng ứng dụng giao diện dòng lệnh.
+* Kỹ năng làm việc nhóm bằng GitHub.
+
+---
+
+# 📌 16. Kết luận
+
+CarCare Manager là một hệ thống quản lý và theo dõi một chiếc ô tô trong một phiên sử dụng.
+
+Hệ thống cho phép người dùng quản lý thông tin xe, chuyến đi, năng lượng, bảo dưỡng, chi phí, tình trạng xe, các vấn đề và phụ kiện.
+
+Dự án không sử dụng lưu trữ dữ liệu lâu dài. Toàn bộ dữ liệu chỉ tồn tại tạm thời trong bộ nhớ chương trình và sẽ bị xóa khi chương trình kết thúc.
+
+Bằng cách chỉ sử dụng các kiến thức Python cơ bản, CarCare Manager tạo ra một bài toán đủ lớn để sinh viên rèn luyện kỹ năng lập trình, tổ chức code và làm việc nhóm thông qua GitHub.
