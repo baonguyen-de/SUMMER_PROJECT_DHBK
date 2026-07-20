@@ -18,3 +18,5 @@ Ghi chú:
     - Mỗi chức năng phải được xử lý trong module tương ứng.
     - main.py chỉ có nhiệm vụ điều phối chương trình.
 """
+from utils import get_car_info
+from menu import render_menu, menu_choice
