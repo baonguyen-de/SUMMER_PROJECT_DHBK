@@ -29,16 +29,30 @@ Ghi chú quan trọng:
     - Phiên bản sau: Nâng cấp sang SQLite.
 """
 car_info = []
-def get_car_info():
-    global car_info
-    CARNAME = input("Nhập tên xe: ")
-    CARTYPE = input("Nhập loại xe: ")
-    CARNUMBER = input("Nhập biển số: ")
-    CARKM = float(input("Nhập số kilomet hiện tại: "))
-    CARYEAR = int(input("Nhập năm sản xuất: "))
-    car_info = [CARNAME, CARTYPE, CARNUMBER, CARKM, CARYEAR]
-    return car_info
-get_car_info()
+car_list = [
+    "Toyota",
+    "Honda",
+    "Mazda",
+    "Hyundai",
+    "Kia",
+    "Ford",
+    "VinFast",
+    "Mercedes-Benz",
+    "BMW",
+    "Audi",
+    "Lexus",
+    "Chevrolet",
+    "Nissan",
+    "Mitsubishi",
+    "Suzuki",
+    "Camry",
+    "Peugeot",
+    "Volkswagen",
+    "Porsche",
+    "Volvo",
+    "Subaru",
+]
+car_type_list = ["điện", "xăng", "hybrid"]
 
 
 

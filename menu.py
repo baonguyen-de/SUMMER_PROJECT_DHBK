@@ -55,8 +55,14 @@ selected_option = menu_choice()
 
 
 os.system('cls' if os.name == 'nt' else 'clear')
+import car 
 if selected_option == 0:
-    from car import display_car_info
-    display_car_info()
+    car.get_car_info()
+    car.update_car_info()
+   
+    
+  
 
+    
+    
     
