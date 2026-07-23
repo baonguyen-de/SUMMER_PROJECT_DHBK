@@ -53,6 +53,8 @@ car_list = [
     "Subaru",
 ]
 car_type_list = ["điện", "xăng", "hybrid"]
+trips = []
+energy = []
 
 
 
