@@ -20,6 +20,7 @@ Ghi chú:
 """
 import readchar
 import os
+import trip
 options = [
     "Quản lý thông tin xe",
     "Quản lý chuyến đi",
@@ -59,6 +60,8 @@ while True:
     if selected_option == 0:
         car.get_car_info()
         car.update_car_info()
+    elif selected_option == 1:
+        trip.trip_menu()
     elif selected_option == 9:
         break
 
