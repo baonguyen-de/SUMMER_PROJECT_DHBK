@@ -27,29 +27,17 @@ import os
 import utils
 #Hàm nhập tên xe
 def car_name():
-    valid = False
-    while valid is False: 
-        CARNAME = input("Nhập tên xe: ")
-        if CARNAME in utils.car_list:
-            valid = True
-        else:
-            print("\033[31mCảnh báo: Tên xe không có trong danh sách. Vui lòng nhập lại.\033[0m")
+    CARNAME = str(input("Nhập tên xe: "))
     return CARNAME 
 
 #Hàm nhập loại xe
 def car_type():
-    valid = False
-    while valid is False: 
-        CARTYPE = input("Nhập loại xe: ")
-        if CARTYPE in utils.car_type_list:
-            valid = True
-        else:
-            print("\033[31mCảnh báo: Loại xe không hợp lệ. Vui lòng nhập lại.\033[0m")
+    CARTYPE = str(input("Nhập loại xe: "))
     return CARTYPE 
 
 #Hàm nhập biển số xe
 def car_num():
-    CARNUMBER = input("Nhập biển số: ")
+    CARNUMBER = str(input("Nhập biển số: "))
     return CARNUMBER
 
 #Hàm nhập số km
@@ -105,7 +93,7 @@ def update_car_info():
     print("Bạn có muốn cập nhật thông tin xe? (y/n)")
     choice = input().lower()
     if choice == 'n':
-        return
+        return 
     while choice == 'y':
         CARNAME = car_name()
         CARTYPE = car_type()
@@ -115,8 +103,10 @@ def update_car_info():
         utils.car_info.clear()
         utils.car_info.extend([CARNAME, CARTYPE, CARNUMBER, CARKM, CARYEAR])
         display_car_info()
-        print("Bạn có muốn cập nhật thông tin xe? (y/n)")
-        choice = input().lower()
+        update_car_info()
+        return
+            
+
 
 
 

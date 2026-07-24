@@ -29,30 +29,8 @@ Ghi chú quan trọng:
     - Phiên bản sau: Nâng cấp sang SQLite.
 """
 car_info = []
-car_list = [
-    "Toyota",
-    "Honda",
-    "Mazda",
-    "Hyundai",
-    "Kia",
-    "Ford",
-    "VinFast",
-    "Mercedes-Benz",
-    "BMW",
-    "Audi",
-    "Lexus",
-    "Chevrolet",
-    "Nissan",
-    "Mitsubishi",
-    "Suzuki",
-    "Camry",
-    "Peugeot",
-    "Volkswagen",
-    "Porsche",
-    "Volvo",
-    "Subaru",
-]
-car_type_list = ["điện", "xăng", "hybrid"]
+car_list = []
+car_type_list = []
 trips = []
 energy = []
 
