@@ -56,9 +56,12 @@ while True:
     selected_option = menu_choice()
     os.system('cls' if os.name == 'nt' else 'clear')
     import car
+    import inspection
     if selected_option == 0:
         car.get_car_info()
         car.update_car_info()
+    elif selected_option == 5:
+        inspection.inspection()
     elif selected_option == 9:
         break
 

@@ -86,5 +86,8 @@ def delete_trip(index):
         return True
     else:
         print("Số thứ tự chuyến đi không hợp lệ.") 
-        return False    
+        return False 
+
+add_trip("20","Vung Tau", "Ho Chi Minh", 1000, "Oto")
+
 
