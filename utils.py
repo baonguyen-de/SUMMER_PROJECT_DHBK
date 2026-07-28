@@ -29,11 +29,12 @@ Ghi chú quan trọng:
     - Phiên bản sau: Nâng cấp sang SQLite.
 """
 car_info = []
-car_list = []
-car_type_list = []
 trips = []
 energy = []
-
+inspection_results = []
+issue_parts = []    
+issue_statuses = []  
+issue_errors = []
 
 
     
