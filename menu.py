@@ -61,13 +61,10 @@ while True:
     if selected_option == 0:
         car.get_car_info()
         car.update_car_info()
-<<<<<<< HEAD
+    elif selected_option == 1:
+            trip.trip_menu()
     elif selected_option == 5:
         inspection.inspection()
-=======
-    elif selected_option == 1:
-        trip.trip_menu()
->>>>>>> ba94625479de938c4671f8f5dc4978a40f5be241
     elif selected_option == 9:
         break
 
