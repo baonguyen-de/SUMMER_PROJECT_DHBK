@@ -55,21 +55,6 @@ def find_longest_distance():
     else:
         longest = max(utils.trips, key=lambda trip: trip[3])
         return longest
-<<<<<<< HEAD
-def delete_trip(index):
-    if 1 <= index <= len(utils.trips):
-        removed = utils.trips.pop(index - 1)
-        print(f"Đã xóa chuyến đi {removed[1]} --> {removed[2]}")
-        return True
-    else:
-        print("Số thứ tự chuyến đi không hợp lệ.") 
-        return False 
-
-add_trip("20","Vung Tau", "Ho Chi Minh", 1000, "Oto")
-
-=======
->>>>>>> ba94625479de938c4671f8f5dc4978a40f5be241
-
 def delete_trip():
     view_trip()
     if not utils.trips:
@@ -88,52 +73,3 @@ def delete_trip():
     except ValueError:
         print("Lỗi: Phải nhập số nguyên!")
 
-def trip_menu():
-    while True:
-        print("\n=== QUẢN LÝ CHUYẾN ĐI ===")
-        print("1. Xem danh sách chuyến đi")
-        print("2. Thêm chuyến đi mới")
-        print("3. Xóa chuyến đi")
-        print("4. Xem tổng quãng đường & tìm chuyến đi dài nhất")
-        print("0. Quay lại menu chính")
-        
-        choice = input("Chọn chức năng (0-4): ").strip()
-        
-        if choice == '1':
-            view_trip()
-            
-        elif choice == '2':
-            print("\n--- THÊM CHUYẾN ĐI MỚI ---")
-            date = input("Nhập ngày (DD/MM/YYYY): ")
-            origin = input("Nhập điểm đi: ")
-            destination = input("Nhập điểm đến: ")
-            
-            # Lặp cho đến khi người dùng nhập đúng số quãng đường mới thôi
-            while True:
-                try:
-                    distance = float(input("Nhập quãng đường (km): "))
-                    break  # Nhập đúng số -> Thoát khỏi vòng lặp nhập quãng đường
-                except ValueError:
-                    print("Lỗi: Quãng đường phải là số! Vui lòng nhập lại.")
-                
-            mode = input("Nhập chế độ lái: ")
-            add_trip(date, origin, destination, distance, mode)
-            
-        elif choice == '3':
-            delete_trip()
-            
-        elif choice == '4':
-            print(f"\n- Tổng quãng đường đã đi: {total_distance()} km")
-            longest = find_longest_distance()
-            if longest:
-                print(f"- Chuyến đi dài nhất: {longest[1]} -> {longest[2]} ({longest[3]} km)")
-            else:
-                print("- Chưa có dữ liệu chuyến đi để tìm.")
-                
-        elif choice == '0':
-            break
-            
-        else:
-            print("Lựa chọn không hợp lệ!")
-        
-        input("\nẤn Enter để tiếp tục...")
