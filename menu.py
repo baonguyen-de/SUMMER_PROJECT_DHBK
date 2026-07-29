@@ -22,6 +22,7 @@ import os
 import readchar
 import trip
 import expense
+import accessory
 #Menu Trip.
 def trip_menu():
     trip_options = [
@@ -133,7 +134,49 @@ def expense_menu():
 
             input("\nẤn Enter để tiếp tục...")
 
+#Menu accessory
+def accessory_menu():
+    import accessory  # Import chính module để dùng tiền tố accessory.
 
+    options = [
+        "Xem danh sách phụ kiện",
+        "Thêm phụ kiện mới",
+        "Tính tổng chi phí phụ kiện",
+        "Xóa phụ kiện",
+        "Quay lại menu chính",
+    ]
+
+    current_index = 0
+
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
+        print("=== QUẢN LÝ PHỤ KIỆN ===")
+        for i, option in enumerate(options):
+            if i == current_index:
+                print(f"> \033[32m{option}\033[0m")
+            else:
+                print(f"    {option}")
+
+        key = readchar.readkey()
+        if key == readchar.key.UP:
+            current_index = (current_index - 1) % len(options)
+        elif key == readchar.key.DOWN:
+            current_index = (current_index + 1) % len(options)
+        elif key == readchar.key.ENTER:
+            os.system("cls" if os.name == "nt" else "clear")
+
+            if current_index == 0:
+                accessory.view_accessory_list()
+            elif current_index == 1:
+                accessory.add_accessory()
+            elif current_index == 2:
+                accessory.calculate_total_accessory_cost()
+            elif current_index == 3:
+                accessory.delete_accessory()
+            elif current_index == 4:
+                break  # Quay lại menu chính
+
+            input("\nẤn Enter để tiếp tục...")
 #Menu chính 
 options = [
     "Quản lý thông tin xe",
@@ -185,6 +228,8 @@ while True:
         inspection.status()
     elif selected_option == 6:
         issue.run()
+    elif selected_option == 7:
+        accessory_menu()
     elif selected_option == 9:
         break
 
