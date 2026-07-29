@@ -105,7 +105,9 @@ def update_car_info():
         display_car_info()
         update_car_info()
         return
-            
+def run():
+    get_car_info()
+    update_car_info()         
 
 
 

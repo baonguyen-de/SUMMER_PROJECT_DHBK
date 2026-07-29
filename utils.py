@@ -35,6 +35,10 @@ inspection_results = []
 issue_parts = []    
 issue_statuses = []  
 issue_errors = []
+maint_items = []  
+maint_dates = []   
+maint_kms = []      
+maint_costs = []    
 
 
     

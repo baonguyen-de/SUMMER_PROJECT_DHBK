@@ -58,11 +58,13 @@ while True:
     import car
     import inspection
     import issue
+    import maintenance
     if selected_option == 0:
-        car.get_car_info()
-        car.update_car_info()
+        car.run()
     elif selected_option == 1:
-            trip.trip_menu()
+        trip.trip_menu()
+    elif selected_option == 3:
+        maintenance.run()
     elif selected_option == 5:
         inspection.status()
     elif selected_option == 6:
