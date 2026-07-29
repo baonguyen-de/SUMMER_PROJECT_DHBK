@@ -18,8 +18,9 @@ Ghi chú:
     - Không xử lý logic quản lý xe.
     - Không trực tiếp quản lý dữ liệu.
 """
-import readchar
 import os
+import readchar
+#Menu chính 
 options = [
     "Quản lý thông tin xe",
     "Quản lý chuyến đi",
@@ -59,12 +60,11 @@ while True:
     import inspection
     import issue
     import maintenance
+    import trip
     if selected_option == 0:
         car.run()
     elif selected_option == 1:
         trip.trip_menu()
-    elif selected_option == 3:
-        maintenance.run()
     elif selected_option == 5:
         inspection.status()
     elif selected_option == 6:
