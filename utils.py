@@ -38,7 +38,8 @@ issue_errors = []
 maint_items = []  
 maint_dates = []   
 maint_kms = []      
-maint_costs = []    
+maint_costs = []  
+expenses = []  
 
 
     
