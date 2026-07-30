@@ -23,6 +23,7 @@ import readchar
 import trip
 import expense
 import accessory
+import energy
 #Menu Trip.
 def trip_menu():
     trip_options = [
@@ -90,6 +91,107 @@ def trip_menu():
 
             elif current_index == 4:
                 break  # Quay lại menu chính
+
+            input("\nẤn Enter để tiếp tục...")
+#Menu energy
+def energy_menu():
+    options = [
+        "Xem lịch sử tiêu thụ năng lượng",
+        "Ghi nhận tiêu thụ XE ĐIỆN",
+        "Ghi nhận tiêu thụ XE XĂNG",
+        "Quay lại menu chính",
+    ]
+
+    current_index = 0
+
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
+        print("=== QUẢN LÝ TIÊU THỤ NĂNG LƯỢNG ===")
+        for i, option in enumerate(options):
+            if i == current_index:
+                print(f"> \033[32m{option}\033[0m")
+            else:
+                print(f"    {option}")
+
+        key = readchar.readkey()
+        if key == readchar.key.UP:
+            current_index = (current_index - 1) % len(options)
+        elif key == readchar.key.DOWN:
+            current_index = (current_index + 1) % len(options)
+        elif key == readchar.key.ENTER:
+            os.system("cls" if os.name == "nt" else "clear")
+
+           
+
+            # 1. Xem lịch sử
+            if current_index == 0:
+                energy.view_energy_history()
+
+            # 2. Nhập tiêu thụ Xe Điện
+            elif current_index == 1:
+                print("\n--- GHI NHẬN NĂNG LƯỢNG XE ĐIỆN ---")
+
+                # Nhập pin ban đầu
+                while True:
+                    try:
+                        init_bat = float(input("Nhập Mức pin ban đầu (%): "))
+                        if 0 <= init_bat <= 100:
+                            break
+                        print("Lỗi: Pin phải nằm trong khoảng từ 0 đến 100%!")
+                    except ValueError:
+                        print("Lỗi: Vui lòng nhập số hợp lệ!")
+
+                # Nhập pin còn lại
+                while True:
+                    try:
+                        final_bat = float(input("Nhập Mức pin còn lại (%): "))
+                        if 0 <= final_bat <= init_bat:
+                            break
+                        print("Lỗi: Pin còn lại phải từ 0% và không thể lớn hơn pin ban đầu!")
+                    except ValueError:
+                        print("Lỗi: Vui lòng nhập số hợp lệ!")
+
+                # Nhập quãng đường
+                while True:
+                    try:
+                        distance = float(input("Nhập Quãng đường đã đi (km): "))
+                        if distance >= 0:
+                            break
+                        print("Lỗi: Quãng đường không thể âm!")
+                    except ValueError:
+                        print("Lỗi: Vui lòng nhập số hợp lệ!")
+
+                energy.electric_energy(init_bat, final_bat, distance)
+
+            # 3. Nhập tiêu thụ Xe Xăng
+            elif current_index == 2:
+                print("\n--- GHI NHẬN NĂNG LƯỢNG XE XĂNG ---")
+
+                # Nhập nhiên liệu đã dùng
+                while True:
+                    try:
+                        fuel_used = float(input("Nhập Số lít nhiên liệu đã dùng (L): "))
+                        if fuel_used >= 0:
+                            break
+                        print("Lỗi: Số lít nhiên liệu không thể âm!")
+                    except ValueError:
+                        print("Lỗi: Vui lòng nhập số hợp lệ!")
+
+                # Nhập quãng đường
+                while True:
+                    try:
+                        distance = float(input("Nhập Quãng đường đã đi (km): "))
+                        if distance >= 0:
+                            break
+                        print("Lỗi: Quãng đường không thể âm!")
+                    except ValueError:
+                        print("Lỗi: Vui lòng nhập số hợp lệ!")
+
+                energy.gas_energy(fuel_used, distance)
+
+            # 4. Quay lại menu chính
+            elif current_index == 3:
+                break
 
             input("\nẤn Enter để tiếp tục...")
 #Menu expense
@@ -222,6 +324,8 @@ while True:
         car.run()
     elif selected_option == 1:
         trip_menu()
+    elif selected_option == 2:
+        energy_menu()
     elif selected_option == 4:
         expense_menu()
     elif selected_option == 5:
