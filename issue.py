@@ -127,7 +127,7 @@ def view_issue():
         print(f"  Vấn đề   : {desc}")
         print(f"  Mức độ   : {severity}")
         print(f"  Trạng thái: {status}")
-        input("Nhấn ENTER để quay về")
+    input("Nhấn ENTER để tiếp tục")
 
 def close_issue():
     print("ĐÓNG VẤN ĐỀ")
