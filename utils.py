@@ -29,6 +29,7 @@ Ghi chú quan trọng:
     - Phiên bản sau: Nâng cấp sang SQLite.
 """
 car_info = []
+initial_car_km = 0.0
 trips = []
 energy = []
 inspection_results = []
@@ -37,8 +38,8 @@ issue_statuses = []
 issue_errors = []
 maint_items = []  
 maint_dates = []   
-maint_kms = []      
-maint_costs = []  
+maint_kms = []  
+maint_costs = []     
 expenses = []  
 accessories = []
 

@@ -80,7 +80,7 @@ def status():
 
     # Hiển thị bảng kết quả kiểm tra xe
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("========== KIỂM TRA XE ==========\n")
+    print("\033[32m--- KIỂM TRA XE ---\033[0m\n")
     
     has_error = False
     

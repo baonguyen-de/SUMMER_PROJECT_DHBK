@@ -35,10 +35,11 @@ def add_trip(date: str, origin: str, destination: str, distance: float, mode: st
 
 def view_trip():
     if not utils.trips:
-        print("\nLịch sử chuyến đi trống.")
+        print("\n\033[32m--- LỊCH SỬ CHUYỂN ĐI ---\033[0m")
+        print("Lịch sử chuyến đi trống.")
         return None
     else:
-        print("\n--- LỊCH SỬ CHUYẾN ĐI ---")  
+        print("\n\033[32m--- LỊCH SỬ CHUYỂN ĐI ---\033[0m")  
         for i, trip in enumerate(utils.trips, start=1):
             date, origin, destination, distance, mode = trip
             print(f"{i}.Ngày: {date} | Từ: {origin} Đến: {destination} | Khoảng cách: {distance} km | Chế độ lái: {mode}")

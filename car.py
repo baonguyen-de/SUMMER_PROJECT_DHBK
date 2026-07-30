@@ -23,7 +23,7 @@ Ghi chú:
     - Dữ liệu xe được lưu trong utils.py.
     - Không xử lý chuyến đi, bảo dưỡng hoặc chi phí.
 """
-import os
+import utils
 import utils
 #Hàm nhập tên xe
 def car_name():
@@ -40,17 +40,18 @@ def car_num():
     CARNUMBER = str(input("Nhập biển số: "))
     return CARNUMBER
 
-#Hàm nhập số km
+# Hàm nhập / cập nhật số km cho xe
 def car_km():
-    valid = False
-    while valid is False: 
-        CARKM_str = input("Nhập số km: ")
-        if CARKM_str.replace('.', '', 1).isdigit():
-            CARKM = float(CARKM_str)
-            valid = True
-        else:
-            print("\033[31mCảnh báo: Số km không hợp lệ. Vui lòng nhập lại.\033[0m")
-    return CARKM
+    while True:
+        try:
+            CARKM = float(input("Nhập số km ban đầu của xe: "))
+            if CARKM >= 0:
+                return CARKM
+            else:
+                print("\033[31mCảnh báo: Số km không thể âm! Vui lòng nhập lại.\033[0m")
+        except ValueError:
+            print("\033[31mCảnh báo: Vui lòng nhập số hợp lệ!\033[0m")
+    
 
 #Hàm nhập năm sản xuất
 def car_year():
@@ -69,7 +70,7 @@ def car_year():
 
 #Hàm hiện thông tin xe
 def display_car_info():
-    print("\033[32m---THÔNG TIN XE---\033[0m")
+    print("\033[32m--- THÔNG TIN XE ---\033[0m")
     print(f"Tên xe: {utils.car_info[0]}")
     print(f"Loại xe: {utils.car_info[1]}")
     print(f"Biển số: {utils.car_info[2]}")
@@ -82,8 +83,9 @@ def get_car_info():
     CARTYPE = car_type()
     CARNUMBER = car_num()
     CARKM = car_km()
-    CARYEAR = car_year()    
+    CARYEAR = car_year()  
     utils.car_info.clear()
+    utils.initial_car_km = CARKM  
     utils.car_info.extend([CARNAME, CARTYPE, CARNUMBER, CARKM, CARYEAR])
     display_car_info()
     return utils.car_info

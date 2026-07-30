@@ -114,7 +114,7 @@ def view_expense_history():
 
 def calculate_total_expenses():
     """3 & 4. Tính tổng chi phí & tính chi phí theo nhóm."""
-    print("\n--- BÁO CÁO TỔNG QUAN CHI PHÍ ---")
+    print("\n\033[32m--- BÁO CÁO TỔNG QUAN CHI PHÍ ---\033[0m")
     if not hasattr(utils, "expenses") or not utils.expenses:
         print("Chưa có dữ liệu chi phí để tính toán.")
         return

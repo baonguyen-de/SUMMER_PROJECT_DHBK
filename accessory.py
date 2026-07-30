@@ -30,7 +30,6 @@ POPULAR_ACCESSORIES = [
     "Khác",
 ]
 import utils
-import expense
 
 def add_accessory():
     """1. Thêm phụ kiện mới"""
@@ -89,7 +88,7 @@ def add_accessory():
 
 def view_accessory_list():
     """2. Xem danh sách phụ kiện"""
-    print("\n--- DANH SÁCH PHỤ KIỆN ---")
+    print("\n\033[32m--- DANH SÁCH PHỤ KIỆN ---\033[0m")
     if not utils.accessories:
         print("Chưa có phụ kiện nào được ghi nhận.")
         return

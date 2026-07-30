@@ -114,10 +114,10 @@ def add_issue():
     input("\nNhấn ENTER để tiếp tục")
 
 def view_issue():
-    print("CÁC VẤN ĐỀ ĐANG TỒN TẠI")
+    print("\n\033[32m--- CÁC VẤN ĐỀ ĐANG TỒN TẠI ---\033[0m")
     if len(utils.issue_parts) == 0:
         print("Hiện không có vấn đề nào")
-        print("Nhấn ENTER để tiếp tục")
+        input("Nhấn ENTER để tiếp tục")
         return
     for i in range(len(utils.issue_parts)):
         desc = utils.issue_parts[i]
@@ -159,7 +159,7 @@ def close_issue():
 def delete_issue():
     """Chức năng: Xóa vấn đề"""
     clear_screen()
-    print("=== XÓA VẤN ĐỀ ===")
+    print("\033[32m--- XÓA VẤN ĐỀ ---\033[0m")
 
     if not utils.issue_parts:
         print("Không có vấn đề nào trong danh sách để xóa.")

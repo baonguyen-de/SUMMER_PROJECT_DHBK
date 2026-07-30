@@ -36,9 +36,10 @@ def gas_energy(fuel_used, distance):
 
 def view_energy_history():
     if not utils.energy:
+        print("\n\033[32m--- LỊCH SỬ TIÊU THỤ NĂNG LƯỢNG ---\033[0m")
         print("Lịch sử trống")
         return None
-    print("\n=== LỊCH SỬ TIÊU THỤ NĂNG LƯỢNG ===")
+    print("\n\033[32m--- LỊCH SỬ TIÊU THỤ NĂNG LƯỢNG ---\033[0m")
     for i, rec in enumerate(utils.energy, start = 1):
         loai_xe = rec[0]
         if loai_xe == "electric":

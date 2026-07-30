@@ -29,6 +29,7 @@ import accessory
 import energy
 import issue
 import maintenance
+import report
 
 # Menu maintenance
 def render_maintenance_menu(selected_maintenance_choice):
@@ -271,7 +272,7 @@ def energy_menu():
                 break
 
             input("\nẤn Enter để tiếp tục...")
-#Menu expense
+# Menu expense
 def expense_menu():
     options = [
         "Xem lịch sử chi phí",
@@ -409,6 +410,8 @@ while True:
         issue_run()
     elif selected_option == 7:
         accessory_menu()
+    elif selected_option == 8:
+        report.report()
     elif selected_option == 9:
         break
 
