@@ -100,7 +100,6 @@ def issue_run():
             issue.delete_issue()
         elif selected_issue == 4:
             break
-
 #Menu Trip.
 def trip_menu():
     trip_options = [
@@ -110,11 +109,8 @@ def trip_menu():
         "Xem tổng quãng đường & tìm chuyến đi dài nhất",
         "Quay lại menu chính",
     ]
-
     current_index = 0
-
     while True:
-        # Render sub-menu
         os.system("cls" if os.name == "nt" else "clear")
         print("=== QUẢN LÝ CHUYẾN ĐI ===")
         for i, option in enumerate(trip_options):
@@ -123,51 +119,33 @@ def trip_menu():
             else:
                 print(f"    {option}")
 
-        # Bắt phím
         key = readchar.readkey()
         if key == readchar.key.UP:
             current_index = (current_index - 1) % len(trip_options)
         elif key == readchar.key.DOWN:
             current_index = (current_index + 1) % len(trip_options)
         elif key == readchar.key.ENTER:
-            # Xử lý theo tính năng đã chọn
+            os.system("cls" if os.name == "nt" else "clear")
+
+            # 1. Xem danh sách
             if current_index == 0:
                 trip.view_trip()
 
+            # 2. Thêm chuyến đi mới
             elif current_index == 1:
-                print("\n--- THÊM CHUYẾN ĐI MỚI ---")
-                date = input("Nhập ngày (DD/MM/YYYY): ")
-                origin = input("Nhập điểm đi: ")
-                destination = input("Nhập điểm đến: ")
+                trip.add_trip()
 
-                # Lặp cho đến khi người dùng nhập đúng số quãng đường mới thôi
-                while True:
-                    try:
-                        distance = float(input("Nhập quãng đường (km): "))
-                        break  # Nhập đúng số -> Thoát khỏi vòng lặp nhập quãng đường
-                    except ValueError:
-                        print(
-                            "Lỗi: Quãng đường phải là số! Vui lòng nhập lại."
-                        )
-
-                mode = input("Nhập chế độ lái: ")
-                trip.add_trip(date, origin, destination, distance, mode)
-
+            # 3. Xóa chuyến đi
             elif current_index == 2:
                 trip.delete_trip()
 
+            # 4. Xem thống kê (Tổng & Dài nhất)
             elif current_index == 3:
-                print(f"\n- Tổng quãng đường đã đi: {trip.total_distance()} km")
-                longest = trip.find_longest_distance()
-                if longest:
-                    print(
-                        f"- Chuyến đi dài nhất: {longest[1]} -> {longest[2]} ({longest[3]} km)"
-                    )
-                else:
-                    print("- Chưa có dữ liệu chuyến đi để tìm.")
+                trip.show_summary()
 
+            # 5. Quay lại menu chính
             elif current_index == 4:
-                break  # Quay lại menu chính
+                break
 
             input("\nẤn Enter để tiếp tục...")
 #Menu energy
@@ -198,73 +176,17 @@ def energy_menu():
         elif key == readchar.key.ENTER:
             os.system("cls" if os.name == "nt" else "clear")
 
-           
-
             # 1. Xem lịch sử
             if current_index == 0:
                 energy.view_energy_history()
 
-            # 2. Nhập tiêu thụ Xe Điện
+            # 2. Ghi nhận Xe Điện (Chỉ gọi hàm, front-end đã lo bên trong)
             elif current_index == 1:
-                print("\n--- GHI NHẬN NĂNG LƯỢNG XE ĐIỆN ---")
+                energy.electric_energy()
 
-                # Nhập pin ban đầu
-                while True:
-                    try:
-                        init_bat = float(input("Nhập Mức pin ban đầu (%): "))
-                        if 0 <= init_bat <= 100:
-                            break
-                        print("Lỗi: Pin phải nằm trong khoảng từ 0 đến 100%!")
-                    except ValueError:
-                        print("Lỗi: Vui lòng nhập số hợp lệ!")
-
-                # Nhập pin còn lại
-                while True:
-                    try:
-                        final_bat = float(input("Nhập Mức pin còn lại (%): "))
-                        if 0 <= final_bat <= init_bat:
-                            break
-                        print("Lỗi: Pin còn lại phải từ 0% và không thể lớn hơn pin ban đầu!")
-                    except ValueError:
-                        print("Lỗi: Vui lòng nhập số hợp lệ!")
-
-                # Nhập quãng đường
-                while True:
-                    try:
-                        distance = float(input("Nhập Quãng đường đã đi (km): "))
-                        if distance >= 0:
-                            break
-                        print("Lỗi: Quãng đường không thể âm!")
-                    except ValueError:
-                        print("Lỗi: Vui lòng nhập số hợp lệ!")
-
-                energy.electric_energy(init_bat, final_bat, distance)
-
-            # 3. Nhập tiêu thụ Xe Xăng
+            # 3. Ghi nhận Xe Xăng (Chỉ gọi hàm, front-end đã lo bên trong)
             elif current_index == 2:
-                print("\n--- GHI NHẬN NĂNG LƯỢNG XE XĂNG ---")
-
-                # Nhập nhiên liệu đã dùng
-                while True:
-                    try:
-                        fuel_used = float(input("Nhập Số lít nhiên liệu đã dùng (L): "))
-                        if fuel_used >= 0:
-                            break
-                        print("Lỗi: Số lít nhiên liệu không thể âm!")
-                    except ValueError:
-                        print("Lỗi: Vui lòng nhập số hợp lệ!")
-
-                # Nhập quãng đường
-                while True:
-                    try:
-                        distance = float(input("Nhập Quãng đường đã đi (km): "))
-                        if distance >= 0:
-                            break
-                        print("Lỗi: Quãng đường không thể âm!")
-                    except ValueError:
-                        print("Lỗi: Vui lòng nhập số hợp lệ!")
-
-                energy.gas_energy(fuel_used, distance)
+                energy.gas_energy()
 
             # 4. Quay lại menu chính
             elif current_index == 3:
@@ -393,6 +315,11 @@ def menu_choice():
 while True:
     selected_option = menu_choice()
     os.system('cls' if os.name == 'nt' else 'clear')
+    import car
+    import inspection
+    import issue
+    import maintenance
+    import trip
     if selected_option == 0:
         car.run()
     elif selected_option == 1:
