@@ -23,6 +23,80 @@ import readchar
 import trip
 import expense
 import accessory
+import issue
+import maintenance
+
+# Menu maintenance
+def render_maintenance_menu(selected_maintenance_choice):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("---VẤN ĐỀ VÀ CẢNH BÁO---")
+    for i, option in enumerate(maintenance.maintenance_option):
+        if i == selected_maintenance_choice:
+            print(f"> \033[32m{option}\033[0m")
+        else:
+            print(f"    {option}")
+def maintenance_choice():
+    current_index = 0
+    while True:
+        render_maintenance_menu(current_index)
+        key = readchar.readkey()
+        if key == readchar.key.UP:
+            current_index = (current_index -1) % len(maintenance.maintenance_option)
+        elif key == readchar.key.DOWN:
+            current_index = (current_index + 1) % len(maintenance.maintenance_option)
+        elif key == readchar.key.ENTER:
+            return current_index
+def maintenance_run():
+    while True:
+        selected_option = maintenance_choice()
+        os.system('cls' if os.name == 'nt' else 'clear')
+        if selected_option == 0:
+            maintenance.add_maintenance()
+        elif selected_option == 1:
+            maintenance.view_maintenance()
+        elif selected_option == 2:
+            maintenance.delete_maintenance()
+        elif selected_option == 3:
+            maintenance.check_maintenance_warning()
+        elif selected_option == 4:
+            break
+
+#Menu issue
+def render_issue_menu(selected_issue_choice):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("---VẤN ĐỀ VÀ CẢNH BÁO---")
+    for i, function in enumerate(issue.functions):
+        if i == selected_issue_choice:
+            print(f"> \033[32m{function}\033[0m")
+        else:
+            print(f"    {function}")
+
+def issue_menu_choice():
+    current_index = 0
+    while True:
+        render_issue_menu(current_index)
+        key = readchar.readkey()
+        if key == readchar.key.UP:
+            current_index = (current_index -1) % len(issue.functions)
+        elif key == readchar.key.DOWN:
+            current_index = (current_index + 1) % len(issue.functions)
+        elif key == readchar.key.ENTER:
+            return current_index
+def issue_run():
+    while True:
+        selected_issue = issue_menu_choice()
+        os.system('cls' if os.name == 'nt' else 'clear')
+        if selected_issue == 0:
+            issue.add_issue()
+        elif selected_issue == 1:
+            issue.view_issue()
+        elif selected_issue == 2:
+            issue.close_issue()
+        elif selected_issue == 3:
+            issue.delete_issue()
+        elif selected_issue == 4:
+            break
+
 #Menu Trip.
 def trip_menu():
     trip_options = [
@@ -136,7 +210,6 @@ def expense_menu():
 
 #Menu accessory
 def accessory_menu():
-    import accessory  # Import chính module để dùng tiền tố accessory.
 
     options = [
         "Xem danh sách phụ kiện",
@@ -222,12 +295,14 @@ while True:
         car.run()
     elif selected_option == 1:
         trip_menu()
+    elif selected_option == 3:
+        maintenance_run()
     elif selected_option == 4:
         expense_menu()
     elif selected_option == 5:
         inspection.status()
     elif selected_option == 6:
-        issue.run()
+        issue_run()
     elif selected_option == 7:
         accessory_menu()
     elif selected_option == 9:
