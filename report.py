@@ -71,7 +71,7 @@ def report():
         utils.car_info[3] = total_distance + initial_car_km
         car.display_car_info()
         trip.view_trip()
-        trip.total_distance()
+        trip.show_summary()
         energy.view_energy_history()
         print_maintenance()
         expense.calculate_total_expenses()
