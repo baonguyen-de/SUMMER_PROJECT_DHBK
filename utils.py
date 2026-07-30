@@ -40,6 +40,7 @@ maint_dates = []
 maint_kms = []      
 maint_costs = []  
 expenses = []  
+accessories = []
 
 
     
