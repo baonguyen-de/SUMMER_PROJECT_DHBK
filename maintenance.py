@@ -36,16 +36,16 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 # 1. Bảo dưỡng vấn đề và ĐÓNG VẤN ĐỀ (OPEN -> CLOSED)
-def add_maintenance_and_close_issue():
+def add_maintenance():
     clear_screen()
-    print("=== THỰC HIỆN BẢO DƯỠNG & ĐÓNG VẤN ĐỀ ===")
+    print("=== THỰC HIỆN BẢO DƯỠNG ===")
 
     # Lọc các vấn đề đang OPEN
     open_indices = [i for i in range(len(utils.issue_parts)) if utils.issue_statuses[i] == "OPEN"]
 
     if not open_indices:
         print("Không có vấn đề nào đang OPEN cần bảo dưỡng!")
-        input("\nNhấn ENTER để quay về...")
+        input("\nNhấn ENTER để quay về")
         return
 
     print("Danh sách các vấn đề cần xử lý bảo dưỡng:")
@@ -58,11 +58,11 @@ def add_maintenance_and_close_issue():
             return
         if not (1 <= choice <= len(open_indices)):
             print("Lựa chọn không hợp lệ!")
-            input("\nNhấn ENTER để thử lại...")
+            input("\nNhấn ENTER để thử lại")
             return
     except ValueError:
         print("Vui lòng nhập số!")
-        input("\nNhấn ENTER để thử lại...")
+        input("\nNhấn ENTER để thử lại")
         return
 
     # Lấy vị trí thực tế của vấn đề trong utils
@@ -85,7 +85,7 @@ def add_maintenance_and_close_issue():
 
     print("\n✅ Đã ghi nhận lịch sử bảo dưỡng thành công!")
     print(f"✅ Trạng thái của '{issue_name}' đã được chuyển sang CLOSED!")
-    input("\nNhấn ENTER để tiếp tục...")
+    input("\nNhấn ENTER để tiếp tục")
 
 # 2. Xem lịch sử bảo dưỡng
 def view_maintenance():
@@ -94,7 +94,7 @@ def view_maintenance():
 
     if not utils.maint_items:
         print("Chưa có lịch sử bảo dưỡng nào.")
-        input("\nNhấn ENTER để quay về...")
+        input("\nNhấn ENTER để quay về")
         return
 
     for i in range(len(utils.maint_items)):
@@ -102,9 +102,8 @@ def view_maintenance():
         print(f"Ngày       : {utils.maint_dates[i]}")
         print(f"Số kilomet : {utils.maint_kms[i]:.0f} km")
         print(f"Chi phí    : {utils.maint_costs[i]:.0f} VND")
-        print("-" * 35)
 
-    input("\nNhấn ENTER để quay về...")
+    input("\nNhấn ENTER để quay về")
 
 # 3. Xóa lịch sử bảo dưỡng
 def delete_maintenance():
@@ -112,7 +111,7 @@ def delete_maintenance():
     print("=== XÓA LỊCH SỬ BẢO DƯỠNG ===")
     if not utils.maint_items:
         print("Chưa có lịch sử bảo dưỡng nào để xóa.")
-        input("\nNhấn ENTER để quay về...")
+        input("\nNhấn ENTER để quay về")
         return
 
     for i in range(len(utils.maint_items)):
@@ -126,7 +125,7 @@ def delete_maintenance():
             utils.maint_dates.pop(idx)
             utils.maint_kms.pop(idx)
             utils.maint_costs.pop(idx)
-            print("\n🗑️ Đã xóa lịch sử thành công!")
+            print("\nĐã xóa lịch sử thành công!")
     except ValueError:
         pass
 
@@ -138,7 +137,7 @@ def check_maintenance_warning():
     print("=== KIỂM TRA CẢNH BÁO BẢO DƯỠNG ===")
     if not utils.maint_kms:
         print("Chưa có dữ liệu bảo dưỡng nào để kiểm tra.")
-        input("\nNhấn ENTER để quay về...")
+        input("\nNhấn ENTER để quay về")
         return
 
     last_km = max(utils.maint_kms)
@@ -151,34 +150,22 @@ def check_maintenance_warning():
         print("\n" + "=" * 40)
         if km_diff >= 5000:
             print(f"Quãng đường đã đi thêm: {km_diff:.0f} km")
-            print("\n⚠️ XE CÓ THỂ CẦN ĐƯỢC BẢO DƯỠNG")
+            print("\nXE CÓ THỂ CẦN ĐƯỢC BẢO DƯỠNG")
         else:
             print(f"Quãng đường đã đi thêm: {km_diff:.0f} km")
-            print("\n✅ Xe vẫn hoạt động an toàn (Chưa vượt quá 5000 km).")
+            print("\nXe vẫn hoạt động an toàn (Chưa vượt quá 5000 km).")
     except ValueError:
         print("Số km không hợp lệ!")
 
-    input("\nNhấn ENTER để tiếp tục...")
+    input("\nNhấn ENTER để tiếp tục")
 
-# Menu bảo dưỡng
-def run():
-    while True:
-        clear_screen()
-        print("--- QUẢN LÝ BẢO DƯỠNG (MAINTENANCE) ---")
-        print("1. Bảo dưỡng vấn đề & Đóng Issue")
-        print("2. Xem lịch sử bảo dưỡng")
-        print("3. Xóa lịch sử bảo dưỡng")
-        print("4. Kiểm tra cảnh báo bảo dưỡng")
-        print("5. Quay về menu chính")
-        
-        choice = input("Nhập lựa chọn của bạn (1-5): ").strip()
-        if choice == '1':
-            add_maintenance_and_close_issue()
-        elif choice == '2':
-            view_maintenance()
-        elif choice == '3':
-            delete_maintenance()
-        elif choice == '4':
-            check_maintenance_warning()
-        elif choice == '5':
-            break
+maintenance_option = [
+    "Bảo dưỡng vấn đề",
+    "Xem lịch sử bảo dưỡng",
+    "Xóa lịch sử bảo dưỡng",
+    "Kiểm tra cảnh báo bảo dưỡng",
+    "Quay về menu chính"
+]
+
+
+  
