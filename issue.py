@@ -115,7 +115,7 @@ def add_issue():
 
 def view_issue():
     print("CÁC VẤN ĐỀ ĐANG TỒN TẠI")
-    if not utils.issue_parts:
+    if len(utils.issue_parts) == 0:
         print("Hiện không có vấn đề nào")
         print("Nhấn ENTER để tiếp tục")
         return
@@ -127,7 +127,7 @@ def view_issue():
         print(f"  Vấn đề   : {desc}")
         print(f"  Mức độ   : {severity}")
         print(f"  Trạng thái: {status}")
-    input("Nhấn ENTER để quay về")
+        input("Nhấn ENTER để quay về")
 
 def close_issue():
     print("ĐÓNG VẤN ĐỀ")

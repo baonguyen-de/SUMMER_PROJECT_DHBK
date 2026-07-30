@@ -18,14 +18,15 @@ Ghi chú:
     - Không xử lý logic quản lý xe.
     - Không trực tiếp quản lý dữ liệu.
 """
-import os
 import readchar
+import os
+import car
+import inspection
+import issue
 import trip
 import expense
 import accessory
-<<<<<<< HEAD
 import energy
-=======
 import issue
 import maintenance
 
@@ -100,7 +101,6 @@ def issue_run():
         elif selected_issue == 4:
             break
 
->>>>>>> f525eded005cb2df34a5b7c07a9c86b0a40c6354
 #Menu Trip.
 def trip_menu():
     trip_options = [
@@ -356,6 +356,8 @@ def accessory_menu():
 
             input("\nẤn Enter để tiếp tục...")
 #Menu chính 
+
+
 options = [
     "Quản lý thông tin xe",
     "Quản lý chuyến đi",
@@ -391,22 +393,14 @@ def menu_choice():
 while True:
     selected_option = menu_choice()
     os.system('cls' if os.name == 'nt' else 'clear')
-    import car
-    import inspection
-    import issue
-    import maintenance
-    import trip
     if selected_option == 0:
         car.run()
     elif selected_option == 1:
         trip_menu()
-<<<<<<< HEAD
     elif selected_option == 2:
         energy_menu()
-=======
     elif selected_option == 3:
         maintenance_run()
->>>>>>> f525eded005cb2df34a5b7c07a9c86b0a40c6354
     elif selected_option == 4:
         expense_menu()
     elif selected_option == 5:
