@@ -17,3 +17,6 @@
 - Module menu hoàn thành
 - Module report hoàn thành
 - Module trip hoàn thành
+## Bổ sung
+- Bổ sung UI cho menu
+- Bổ sung UI cho các module

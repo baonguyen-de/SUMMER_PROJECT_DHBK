@@ -35,6 +35,16 @@ Ghi chú:
 """
 import os
 import utils
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+
+console = Console()
+
+# Đảm bảo các danh sách song song trong utils luôn tồn tại
+for attr in ["issue_parts", "issue_errors", "issue_statuses"]:
+    if not hasattr(utils, attr):
+        setattr(utils, attr, [])
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -45,11 +55,11 @@ def input_number(prompt, min_val=0, max_val=None):
         try:
             val = int(input(prompt))
             if val < min_val or (max_val is not None and val > max_val):
-                print(f"Lựa chọn không hợp lệ! Vui lòng nhập từ {min_val} đến {max_val}.")
+                console.print(f"[bold red]Lỗi: Vui lòng nhập từ {min_val} đến {max_val}![/bold red]")
                 continue
             return val
         except ValueError:
-            print("Vui lòng nhập một số nguyên hợp lệ!")
+            console.print("[bold red]Lỗi: Vui lòng nhập một số nguyên hợp lệ![/bold red]")
 
 functions = [
     "Thêm vấn đề",
@@ -60,55 +70,112 @@ functions = [
 ]
 
 def create_issue(part_name, error_status):
+    """Được gọi tự động từ module inspection khi phát hiện WARNING / ERROR"""
     severity = "HIGH" if error_status == "ERROR" else "MEDIUM"
     utils.issue_parts.append(f"{part_name} bị lỗi")
     utils.issue_errors.append(severity)
     utils.issue_statuses.append("OPEN")
 
 def add_issue():
-    print("THÊM VẤN ĐỀ MỚI")
-    desc = input("Mô tả vấn đề: ").strip()
+    clear_screen()
+    console.print("[bold cyan]--- THÊM VẤN ĐỀ MỚI ---[/bold cyan]\n")
+    
+    desc = input("Nhập mô tả vấn đề: ").strip()
     if not desc:
-        print("Mô tả không được để trống!")
+        console.print("[bold red]Lỗi: Mô tả không được để trống![/bold red]")
         input("\nNhấn ENTER để thử lại...")
         return
 
     muc_do = ["HIGH", "MEDIUM", "LOW"]
-    print("\nMức độ nghiêm trọng:")
-    for i, level in enumerate(muc_do, 1):
-        print(f"{i}. {level}")
+    
+    # Bảng chọn mức độ nghiêm trọng
+    level_table = Table(show_header=False, box=None, padding=(0, 2))
+    level_table.add_column("STT", style="bold cyan")
+    level_table.add_column("Mức độ", style="bold white")
+    level_table.add_row("[1]", "[bold red]HIGH[/bold red]")
+    level_table.add_row("[2]", "[bold yellow]MEDIUM[/bold yellow]")
+    level_table.add_row("[3]", "[bold green]LOW[/bold green]")
 
-    choice_status = input_number("Nhập số tương ứng với tình trạng: ", min_val=1, max_val=len(muc_do))
+    console.print(Panel(
+        level_table,
+        title="[bold yellow]MỨC ĐỘ NGHIÊM TRỌNG[/bold yellow]",
+        border_style="cyan",
+        padding=(0, 1)
+    ))
+
+    choice_status = input_number("\nNhập số tương ứng với mức độ (1-3): ", min_val=1, max_val=len(muc_do))
     selected_status = muc_do[choice_status - 1]
 
     utils.issue_parts.append(desc)
     utils.issue_errors.append(selected_status)
     utils.issue_statuses.append("OPEN")
     
-    print(f"\n✅ Đã thêm vấn đề: '{desc}' [Mức độ: {selected_status}] [Trạng thái: OPEN]")
-    input("\nNhấn ENTER để tiếp tục")
+    console.print(f"\n[bold green]✔ Đã thêm vấn đề thành công![/bold green] [dim]'{desc}'[/dim]")
+    input("\nNhấn ENTER để tiếp tục...")
 
 def view_issue():
-    print("CÁC VẤN ĐỀ ĐANG TỒN TẠI")
+    clear_screen()
     if not utils.issue_parts:
-        print("Hiện không có vấn đề nào")
+        console.print("[bold yellow]⚠️ Hiện không có vấn đề nào trong hệ thống.[/bold yellow]")
     else:
-        for i, (desc, severity, status) in enumerate(zip(utils.issue_parts, utils.issue_errors, utils.issue_statuses), 1):
-            print(f"STT {i}:\n  Vấn đề   : {desc}\n  Mức độ   : {severity}\n  Trạng thái: {status}")
+        table = Table(border_style="white", header_style="cyan")
+        table.add_column("STT", justify="center", style="dim white")
+        table.add_column("Mô tả vấn đề", style="bold white")
+        table.add_column("Mức độ", justify="center")
+        table.add_column("Trạng thái", justify="center")
+
+        for idx, (desc, severity, status) in enumerate(zip(utils.issue_parts, utils.issue_errors, utils.issue_statuses), 1):
+            # Định dạng màu Mức độ
+            if severity == "HIGH":
+                sev_text = "[bold red]HIGH[/bold red]"
+            elif severity == "MEDIUM":
+                sev_text = "[bold yellow]MEDIUM[/bold yellow]"
+            else:
+                sev_text = "[bold green]LOW[/bold green]"
+
+            # Định dạng màu Trạng thái
+            st_text = "[bold red]OPEN[/bold red]" if status == "OPEN" else "[bold green]CLOSED[/bold green]"
+
+            table.add_row(str(idx), str(desc), sev_text, st_text)
+
+        panel = Panel(
+            table,
+            title="[bold yellow]⚠️ DANH SÁCH VẤN ĐỀ TỒN TẠI ⚠️[/bold yellow]",
+            border_style="green",
+            padding=(0, 1)
+        )
+        console.print(panel)
     
-    input("\nNhấn ENTER để quay về")
+    input("\nNhấn ENTER để quay về...")
 
 def close_issue():
-    print("ĐÓNG VẤN ĐỀ")
+    clear_screen()
     open_issues = [i for i, status in enumerate(utils.issue_statuses) if status == "OPEN"]
     
     if not open_issues:
-        print("Không có vấn đề nào để đóng")
-        input("\nNhấn ENTER để tiếp tục")
+        console.print("[bold yellow]⚠️ Không có vấn đề OPEN nào để đóng.[/bold yellow]")
+        input("\nNhấn ENTER để tiếp tục...")
         return
 
+    # Bảng danh sách vấn đề đang OPEN
+    table = Table(border_style="white", header_style="cyan")
+    table.add_column("STT", justify="center", style="white")
+    table.add_column("Vấn đề cần đóng", style="white", justify="center")
+    table.add_column("Mức độ", justify="center", style="white")
+
     for index, open_idx in enumerate(open_issues, 1):
-        print(f"{index}. {utils.issue_parts[open_idx]}")
+        table.add_row(
+            str(index),
+            str(utils.issue_parts[open_idx]),
+            str(utils.issue_errors[open_idx])
+        )
+
+    console.print(Panel(
+        table,
+        title="[bold yellow]🔒 ĐÓNG VẤN ĐỀ (OPEN ➔ CLOSED) 🔒[/bold yellow]",
+        border_style="cyan",
+        padding=(0, 1)
+    ))
 
     choice = input_number("\nChọn STT vấn đề muốn đóng (0 để hủy): ", min_val=0, max_val=len(open_issues))
     if choice == 0:
@@ -116,35 +183,45 @@ def close_issue():
 
     target_i = open_issues[choice - 1]
     utils.issue_statuses[target_i] = "CLOSED"
-    print("\n✅ Đã đóng vấn đề!")
-    input("\nNhấn ENTER để tiếp tục")
+    console.print(f"\n[bold green]✔ Đã đóng vấn đề thành công![/bold green]")
+    input("\nNhấn ENTER để tiếp tục...")
 
 def delete_issue():
     clear_screen()
-    print("=== XÓA VẤN ĐỀ ===")
 
     if not utils.issue_parts:
-        print("Không có vấn đề nào trong danh sách để xóa.")
-        input("\nNhấn ENTER để quay về")
+        console.print("[bold yellow] Không có vấn đề nào trong danh sách để xóa.[/bold yellow]")
+        input("\nNhấn ENTER để quay về...")
         return
 
-    print("Danh sách tất cả các vấn đề:")
-    for i, (p, e, s) in enumerate(zip(utils.issue_parts, utils.issue_errors, utils.issue_statuses), 1):
-        print(f"{i}. {p} | {e} | {s}")
+    table = Table(border_style="white", header_style="cyan")
+    table.add_column("STT", justify="center", style="white")
+    table.add_column("Mô tả vấn đề", style="white", justify="center")
+    table.add_column("Trạng thái", justify="center", style="white")
 
-    choice = input_number("\nChọn STT vấn đề muốn xóa vĩnh viễn (0 để hủy): ", min_val=0, max_val=len(utils.issue_parts))
+    for i, (p, e, s) in enumerate(zip(utils.issue_parts, utils.issue_errors, utils.issue_statuses), 1):
+        table.add_row(str(i), str(p), str(s))
+
+    console.print(Panel(
+        table,
+        title="[bold red]🗑️ XÓA VẤN ĐỀ VĨNH VIỄN 🗑️[/bold red]",
+        border_style="red",
+        padding=(0, 1)
+    ))
+
+    choice = input_number("\nChọn STT muốn xóa (0 để hủy): ", min_val=0, max_val=len(utils.issue_parts))
     if choice == 0:
         return
 
     idx = choice - 1
     removed_desc = utils.issue_parts[idx]
     
-    # Xóa đồng thời trong cả 3 danh sách
+    # Xóa đồng thời trong cả 3 danh sách song song
     for lst in (utils.issue_parts, utils.issue_errors, utils.issue_statuses):
         lst.pop(idx)
 
-    print(f"\n✅ Đã xóa thành công vấn đề: '{removed_desc}'")
-    input("\nNhấn ENTER để tiếp tục")
+    console.print(f"\n[bold green]✔ Đã xóa thành công vấn đề:[/bold green] [dim]'{removed_desc}'[/dim]")
+    input("\nNhấn ENTER để tiếp tục...")
 
 
     

@@ -20,26 +20,49 @@ Ghi chú:
 """
 import os
 import readchar
+from rich.console import Console  
+from rich.panel import Panel      
+from rich.text import Text        
+console = Console()            
 import car, inspection, issue, trip, expense, accessory, energy, maintenance, report
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-# Hàm chung điều khiển menu bằng bàn phím (Thay thế cho 6 menu riêng)
+# Hàm chung điều khiển menu bằng bàn phím 
 def run_menu(title, options):
     current = 0
     while True:
         clear_screen()
-        print(f"--- {title} ---")
+        
+        # 1. Tạo danh sách các tùy chọn
+        menu_text = Text()
         for i, opt in enumerate(options):
-            print(f"> \033[32m{opt}\033[0m" if i == current else f"    {opt}")
+            if i == current:
+                # Dòng đang chọn: Nền màu xanh lá, chữ trắng đậm
+                menu_text.append(f" ▶ {opt}\n", style="bold white on green")
+            else:
+                # Các dòng còn lại: Chữ màu xám
+                menu_text.append(f"   {opt}\n", style="gray")
 
+        # 2. Tạo khung đóng gói menu (Panel)
+        panel = Panel(
+            menu_text,
+            title=f"[bold yellow]🔧 {title} 🚗[/bold yellow]",
+            subtitle="[green]Dùng phím ↑ / ↓ để di chuyển | ENTER để chọn[/green]",
+            border_style= "cyan",
+        )
+        
+        # 3. In khung menu ra màn hình
+        console.print(panel)
+
+        # 4. Nhận phím bấm từ bàn phím
         key = readchar.readkey()
-        if key == readchar.key.UP:
+        if key in (readchar.key.UP, 'w', 'W'):
             current = (current - 1) % len(options)
-        elif key == readchar.key.DOWN:
+        elif key in (readchar.key.DOWN, 's', 'S'):
             current = (current + 1) % len(options)
-        elif key == readchar.key.ENTER:
+        elif key in (readchar.key.ENTER, '\r', '\n'):
             return current
 
 # 1. Menu Bảo dưỡng
@@ -113,7 +136,6 @@ def accessory_menu():
         elif choice == 2: accessory.calculate_total_accessory_cost()
         elif choice == 3: accessory.delete_accessory()
         elif choice == 4: break
-        input("\nẤn Enter để tiếp tục...")
 
 # 7. Menu chính
 main_options = [
