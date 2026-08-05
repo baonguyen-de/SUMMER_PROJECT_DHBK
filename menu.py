@@ -18,325 +18,123 @@ Ghi chú:
     - Không xử lý logic quản lý xe.
     - Không trực tiếp quản lý dữ liệu.
 """
-import readchar
 import os
-import car
-import inspection
-import issue
-import trip
-import expense
-import accessory
-import energy
-import issue
-import maintenance
-import report
+import readchar
+import car, inspection, issue, trip, expense, accessory, energy, maintenance, report
 
-# Menu maintenance
-def render_maintenance_menu(selected_maintenance_choice):
+def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("---VẤN ĐỀ VÀ CẢNH BÁO---")
-    for i, option in enumerate(maintenance.maintenance_option):
-        if i == selected_maintenance_choice:
-            print(f"> \033[32m{option}\033[0m")
-        else:
-            print(f"    {option}")
-def maintenance_choice():
-    current_index = 0
+
+# Hàm chung điều khiển menu bằng bàn phím (Thay thế cho 6 menu riêng)
+def run_menu(title, options):
+    current = 0
     while True:
-        render_maintenance_menu(current_index)
+        clear_screen()
+        print(f"--- {title} ---")
+        for i, opt in enumerate(options):
+            print(f"> \033[32m{opt}\033[0m" if i == current else f"    {opt}")
+
         key = readchar.readkey()
         if key == readchar.key.UP:
-            current_index = (current_index -1) % len(maintenance.maintenance_option)
+            current = (current - 1) % len(options)
         elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(maintenance.maintenance_option)
+            current = (current + 1) % len(options)
         elif key == readchar.key.ENTER:
-            return current_index
+            return current
+
+# 1. Menu Bảo dưỡng
 def maintenance_run():
     while True:
-        selected_option = maintenance_choice()
-        os.system('cls' if os.name == 'nt' else 'clear')
-        if selected_option == 0:
-            maintenance.add_maintenance()
-        elif selected_option == 1:
-            maintenance.view_maintenance()
-        elif selected_option == 2:
-            maintenance.delete_maintenance()
-        elif selected_option == 3:
-            maintenance.check_maintenance_warning()
-        elif selected_option == 4:
-            break
+        choice = run_menu("QUẢN LÝ BẢO DƯỠNG", maintenance.maintenance_option)
+        clear_screen()
+        if choice == 0: maintenance.add_maintenance()
+        elif choice == 1: maintenance.view_maintenance()
+        elif choice == 2: maintenance.delete_maintenance()
+        elif choice == 3: maintenance.check_maintenance_warning()
+        elif choice == 4: break
 
-#Menu issue
-def render_issue_menu(selected_issue_choice):
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("---VẤN ĐỀ VÀ CẢNH BÁO---")
-    for i, function in enumerate(issue.functions):
-        if i == selected_issue_choice:
-            print(f"> \033[32m{function}\033[0m")
-        else:
-            print(f"    {function}")
-
-def issue_menu_choice():
-    current_index = 0
-    while True:
-        render_issue_menu(current_index)
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index -1) % len(issue.functions)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(issue.functions)
-        elif key == readchar.key.ENTER:
-            return current_index
+# 2. Menu Issue
 def issue_run():
     while True:
-        selected_issue = issue_menu_choice()
-        os.system('cls' if os.name == 'nt' else 'clear')
-        if selected_issue == 0:
-            issue.add_issue()
-        elif selected_issue == 1:
-            issue.view_issue()
-        elif selected_issue == 2:
-            issue.close_issue()
-        elif selected_issue == 3:
-            issue.delete_issue()
-        elif selected_issue == 4:
-            break
-#Menu Trip.
+        choice = run_menu("VẤN ĐỀ VÀ CẢNH BÁO", issue.functions)
+        clear_screen()
+        if choice == 0: issue.add_issue()
+        elif choice == 1: issue.view_issue()
+        elif choice == 2: issue.close_issue()
+        elif choice == 3: issue.delete_issue()
+        elif choice == 4: break
+
+# 3. Menu Trip
 def trip_menu():
-    trip_options = [
-        "Xem danh sách chuyến đi",
-        "Thêm chuyến đi mới",
-        "Xóa chuyến đi",
-        "Xem tổng quãng đường & tìm chuyến đi dài nhất",
-        "Quay lại menu chính",
-    ]
-    current_index = 0
+    options = ["Xem danh sách chuyến đi", "Thêm chuyến đi mới", "Xóa chuyến đi", "Xem tổng quãng đường & dài nhất", "Quay lại"]
     while True:
-        os.system("cls" if os.name == "nt" else "clear")
-        print("=== QUẢN LÝ CHUYẾN ĐI ===")
-        for i, option in enumerate(trip_options):
-            if i == current_index:
-                print(f"> \033[32m{option}\033[0m")
-            else:
-                print(f"    {option}")
+        choice = run_menu("QUẢN LÝ CHUYẾN ĐI", options)
+        clear_screen()
+        if choice == 0: trip.view_trip()
+        elif choice == 1: trip.add_trip()
+        elif choice == 2: trip.delete_trip()
+        elif choice == 3: trip.show_summary()
+        elif choice == 4: break
+        input("\nẤn Enter để tiếp tục...")
 
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index - 1) % len(trip_options)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(trip_options)
-        elif key == readchar.key.ENTER:
-            os.system("cls" if os.name == "nt" else "clear")
-
-            # 1. Xem danh sách
-            if current_index == 0:
-                trip.view_trip()
-
-            # 2. Thêm chuyến đi mới
-            elif current_index == 1:
-                trip.add_trip()
-
-            # 3. Xóa chuyến đi
-            elif current_index == 2:
-                trip.delete_trip()
-
-            # 4. Xem thống kê (Tổng & Dài nhất)
-            elif current_index == 3:
-                trip.show_summary()
-
-            # 5. Quay lại menu chính
-            elif current_index == 4:
-                break
-
-            input("\nẤn Enter để tiếp tục...")
-#Menu energy
+# 4. Menu Energy
 def energy_menu():
-    options = [
-        "Xem lịch sử tiêu thụ năng lượng",
-        "Ghi nhận tiêu thụ XE ĐIỆN",
-        "Ghi nhận tiêu thụ XE XĂNG",
-        "Quay lại menu chính",
-    ]
-
-    current_index = 0
-
+    options = ["Xem lịch sử tiêu thụ", "Ghi nhận XE ĐIỆN", "Ghi nhận XE XĂNG", "Quay lại"]
     while True:
-        os.system("cls" if os.name == "nt" else "clear")
-        print("=== QUẢN LÝ TIÊU THỤ NĂNG LƯỢNG ===")
-        for i, option in enumerate(options):
-            if i == current_index:
-                print(f"> \033[32m{option}\033[0m")
-            else:
-                print(f"    {option}")
+        choice = run_menu("QUẢN LÝ TIÊU THỤ NĂNG LƯỢNG", options)
+        clear_screen()
+        if choice == 0: energy.view_energy_history()
+        elif choice == 1: energy.electric_energy()
+        elif choice == 2: energy.gas_energy()
+        elif choice == 3: break
+        input("\nẤn Enter để tiếp tục...")
 
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index - 1) % len(options)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(options)
-        elif key == readchar.key.ENTER:
-            os.system("cls" if os.name == "nt" else "clear")
-            # 1. Xem lịch sử
-            if current_index == 0:
-                energy.view_energy_history()
-            # 2. Ghi nhận Xe Điện 
-            elif current_index == 1:
-                energy.electric_energy()
-            # 3. Ghi nhận Xe Xăng 
-            elif current_index == 2:
-                energy.gas_energy()
-            # 4. Quay lại menu chính
-            elif current_index == 3:
-                break
-
-            input("\nẤn Enter để tiếp tục...")
-# Menu expense
+# 5. Menu Expense
 def expense_menu():
-    options = [
-        "Xem lịch sử chi phí",
-        "Thêm chi phí mới",
-        "Tính tổng & chi phí theo nhóm",
-        "Xóa chi phí",
-        "Quay lại menu chính",
-    ]
-
-    current_index = 0
-
+    options = ["Xem lịch sử chi phí", "Thêm chi phí mới", "Tính tổng & theo nhóm", "Xóa chi phí", "Quay lại"]
     while True:
-        os.system("cls" if os.name == "nt" else "clear")
-        print("=== QUẢN LÝ CHI PHÍ ===")
-        for i, option in enumerate(options):
-            if i == current_index:
-                print(f"> \033[32m{option}\033[0m")
-            else:
-                print(f"    {option}")
+        choice = run_menu("QUẢN LÝ CHI PHÍ", options)
+        clear_screen()
+        if choice == 0: expense.view_expense_history()
+        elif choice == 1: expense.add_expense()
+        elif choice == 2: expense.calculate_total_expenses()
+        elif choice == 3: expense.delete_expense()
+        elif choice == 4: break
+        input("\nẤn Enter để tiếp tục...")
 
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index - 1) % len(options)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(options)
-        elif key == readchar.key.ENTER:
-            os.system("cls" if os.name == "nt" else "clear")
-
-            if current_index == 0:
-                expense.view_expense_history()
-            elif current_index == 1:
-                expense.add_expense()
-            elif current_index == 2:
-                expense.calculate_total_expenses()
-            elif current_index == 3:
-                expense.delete_expense()
-            elif current_index == 4:
-                break  # Quay lại menu chính
-
-            input("\nẤn Enter để tiếp tục...")
-
-#Menu accessory
+# 6. Menu Accessory
 def accessory_menu():
-
-    options = [
-        "Xem danh sách phụ kiện",
-        "Thêm phụ kiện mới",
-        "Tính tổng chi phí phụ kiện",
-        "Xóa phụ kiện",
-        "Quay lại menu chính",
-    ]
-
-    current_index = 0
-
+    options = ["Xem danh sách phụ kiện", "Thêm phụ kiện mới", "Tính tổng chi phí", "Xóa phụ kiện", "Quay lại"]
     while True:
-        os.system("cls" if os.name == "nt" else "clear")
-        print("=== QUẢN LÝ PHỤ KIỆN ===")
-        for i, option in enumerate(options):
-            if i == current_index:
-                print(f"> \033[32m{option}\033[0m")
-            else:
-                print(f"    {option}")
+        choice = run_menu("QUẢN LÝ PHỤ KIỆN", options)
+        clear_screen()
+        if choice == 0: accessory.view_accessory_list()
+        elif choice == 1: accessory.add_accessory()
+        elif choice == 2: accessory.calculate_total_accessory_cost()
+        elif choice == 3: accessory.delete_accessory()
+        elif choice == 4: break
+        input("\nẤn Enter để tiếp tục...")
 
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index - 1) % len(options)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(options)
-        elif key == readchar.key.ENTER:
-            os.system("cls" if os.name == "nt" else "clear")
-
-            if current_index == 0:
-                accessory.view_accessory_list()
-            elif current_index == 1:
-                accessory.add_accessory()
-            elif current_index == 2:
-                accessory.calculate_total_accessory_cost()
-            elif current_index == 3:
-                accessory.delete_accessory()
-            elif current_index == 4:
-                break  # Quay lại menu chính
-
-            input("\nẤn Enter để tiếp tục...")
-#Menu chính 
-
-
-options = [
-    "Quản lý thông tin xe",
-    "Quản lý chuyến đi",
-    "Quản lý năng lượng",
-    "Quản lý bảo dưỡng",
-    "Quản lý chi phí",
-    "Kiểm tra tình trạng xe",
-    "Vấn đề và cảnh báo",
-    "Quản lý phụ kiện",
-    "Báo cáo phiên sử dụng",
-    "Thoát"
+# 7. Menu chính
+main_options = [
+    "Quản lý thông tin xe", "Quản lý chuyến đi", "Quản lý năng lượng",
+    "Quản lý bảo dưỡng", "Quản lý chi phí", "Kiểm tra tình trạng xe",
+    "Vấn đề và cảnh báo", "Quản lý phụ kiện", "Báo cáo phiên sử dụng", "Thoát"
 ]
-def render_menu(selected_index):
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("---CARCARE MANAGER---")
-    for i, option in enumerate(options):
-        if i == selected_index:
-            print(f"> \033[32m{option}\033[0m")
-        else:
-            print(f"    {option}")
-def menu_choice():
-    current_index = 0
-    while True:
-        render_menu(current_index)
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index -1) % len(options)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(options)
-        elif key == readchar.key.ENTER:
-            return current_index
 
 while True:
-    selected_option = menu_choice()
-    os.system('cls' if os.name == 'nt' else 'clear')
-    import car
-    import inspection
-    import issue
-    import maintenance
-    import trip
-    if selected_option == 0:
-        car.run()
-    elif selected_option == 1:
-        trip_menu()
-    elif selected_option == 2:
-        energy_menu()
-    elif selected_option == 3:
-        maintenance_run()
-    elif selected_option == 4:
-        expense_menu()
-    elif selected_option == 5:
-        inspection.status()
-    elif selected_option == 6:
-        issue_run()
-    elif selected_option == 7:
-        accessory_menu()
-    elif selected_option == 8:
-        report.report()
-    elif selected_option == 9:
-        break
+    choice = run_menu("CARCARE MANAGER", main_options)
+    clear_screen()
+    if choice == 0: car.run()
+    elif choice == 1: trip_menu()
+    elif choice == 2: energy_menu()
+    elif choice == 3: maintenance_run()
+    elif choice == 4: expense_menu()
+    elif choice == 5: inspection.status()
+    elif choice == 6: issue_run()
+    elif choice == 7: accessory_menu()
+    elif choice == 8: report.report()
+    elif choice == 9: break
 
 
 

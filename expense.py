@@ -30,122 +30,80 @@ Ghi chú:
 import os
 import utils
 
-# Các nhóm chi phí cố định
-EXPENSE_CATEGORIES = [
-    "Năng lượng",
-    "Bảo dưỡng",
-    "Bảo hiểm",
-    "Phụ kiện",
-    "Khác",
-]
+EXPENSE_CATEGORIES = ["Năng lượng", "Bảo dưỡng", "Bảo hiểm", "Phụ kiện", "Khác"]
 
+# Hàm phụ trợ nhập số tổng quát
+def input_num(prompt, is_int=False):
+    while True:
+        try:
+            v = int(input(prompt)) if is_int else float(input(prompt))
+            if v >= 0: return v
+            print("Lỗi: Không được nhập số âm!")
+        except ValueError:
+            print("Lỗi: Phải nhập số hợp lệ!")
 
-
+# 1. Thêm chi phí
 def add_expense():
-    """1. Hàm thêm chi phí"""
     print("\n--- THÊM CHI PHÍ MỚI ---")
     while True:
-        description = input("Nhập mô tả chi phí: ").strip()
-        if not description:
-            print("Lỗi: Mô tả không được để trống!")
-        else:
-            break
+        desc = input("Nhập mô tả chi phí: ").strip()
+        if desc: break
+        print("Lỗi: Mô tả không được để trống!")
 
-    # Chọn nhóm chi phí bằng cách nhập số
     print("\nChọn nhóm chi phí:")
     for idx, cat in enumerate(EXPENSE_CATEGORIES, 1):
         print(f"{idx}. {cat}")
 
-    while True:
-        cat_choice = input(
-            f"Chọn nhóm (1-{len(EXPENSE_CATEGORIES)}): "
-        ).strip()
-        try:
-            cat_index = int(cat_choice) - 1
-            if 0 <= cat_index < len(EXPENSE_CATEGORIES):
-                category = EXPENSE_CATEGORIES[cat_index]
-                break
-            else:
-                print(
-                    f"Lỗi: Vui lòng nhập số từ 1 đến {len(EXPENSE_CATEGORIES)}!"
-                )
-        except ValueError:
-            print("Lỗi: Lựa chọn phải là số nguyên! Vui lòng nhập lại.")
+    cat_idx = int(input_num(f"Chọn nhóm (1-{len(EXPENSE_CATEGORIES)}): ", is_int=True)) - 1
+    if not (0 <= cat_idx < len(EXPENSE_CATEGORIES)):
+        return print("Lỗi: Lựa chọn không hợp lệ!")
 
-    # Nhập số tiền
-    while True:
-        try:
-            amount = float(input("Nhập số tiền (VND): "))
-            if amount < 0:
-                print("Lỗi: Số tiền không thể âm! Vui lòng nhập lại.")
-                continue
-            break
-        except ValueError:
-            print("Lỗi: Số tiền phải là số! Vui lòng nhập lại.")
+    amount = input_num("Nhập số tiền (VND): ")
 
-    # Đảm bảo danh sách expenses tồn tại trong utils
-    if not hasattr(utils, "expenses"):
-        utils.expenses = []
-
-    # Lưu dưới dạng List: [Mô tả, Nhóm, Số tiền]
-    expense_item = [description, category, amount]
-    utils.expenses.append(expense_item)
+    if not hasattr(utils, "expenses"): utils.expenses = []
+    utils.expenses.append([desc, EXPENSE_CATEGORIES[cat_idx], amount])
     print("\n=> Đã thêm chi phí thành công!")
 
-
+# 2. Xem lịch sử
 def view_expense_history():
-    """2. Xem lịch sử chi phí."""
     print("\n--- LỊCH SỬ CHI PHÍ ---")
-    if not hasattr(utils, "expenses") or not utils.expenses:
-        print("Chưa có khoản chi phí nào được ghi nhận.")
-        return
+    expenses = getattr(utils, "expenses", [])
+    if not expenses:
+        return print("Chưa có khoản chi phí nào được ghi nhận.")
 
-    print(
-        f"{'STT':<5} | {'Mô tả':<25} | {'Nhóm chi phí':<15} | {'Số tiền (VND)':<15}"
-    )
-    print("-" * 68)
+    print(f"{'STT':<5} | {'Mô tả':<25} | {'Nhóm chi phí':<15} | {'Số tiền (VND)':<15}\n" + "-" * 68)
+    for idx, item in enumerate(expenses, 1):
+        print(f"{idx:<5} | {item[0]:<25} | {item[1]:<15} | {item[2]:>13,.0f}")
 
-    # Dùng chỉ số index List: item[0]=Mô tả, item[1]=Nhóm, item[2]=Số tiền
-    for idx, item in enumerate(utils.expenses, 1):
-        print(
-            f"{idx:<5} | {item[0]:<25} | {item[1]:<15} | {item[2]:>13,.0f}"
-        )
-
-
+# 3 & 4. Báo cáo tổng quan
 def calculate_total_expenses():
-    """3 & 4. Tính tổng chi phí & tính chi phí theo nhóm."""
     print("\n\033[32m--- BÁO CÁO TỔNG QUAN CHI PHÍ ---\033[0m")
-    if not hasattr(utils, "expenses") or not utils.expenses:
-        print("Chưa có dữ liệu chi phí để tính toán.")
-        return
+    expenses = getattr(utils, "expenses", [])
+    if not expenses:
+        return print("Chưa có dữ liệu chi phí để tính toán.")
 
-    total = sum(item[2] for item in utils.expenses)
-    print(f">>> TỔNG CHI PHÍ: {total:,.0f} VND <<<\n")
-
-    print("Chi tiết theo từng nhóm:")
+    total = sum(item[2] for item in expenses)
+    print(f">>> TỔNG CHI PHÍ: {total:,.0f} VND <<<\n\nChi tiết theo từng nhóm:")
+    
     for cat in EXPENSE_CATEGORIES:
-        cat_total = sum(
-            item[2] for item in utils.expenses if item[1] == cat
-        )
+        cat_total = sum(item[2] for item in expenses if item[1] == cat)
         if cat_total > 0:
             print(f" - {cat:<15}: {cat_total:>12,.0f} VND")
 
-
+# 5. Xóa chi phí
 def delete_expense():
-    """5. Xóa chi phí."""
+    expenses = getattr(utils, "expenses", [])
+    if not expenses:
+        return print("Chưa có chi phí nào để xóa.")
+        
     view_expense_history()
-    try:
-        index = int(input("\nNhập STT khoản chi phí muốn xóa: ")) - 1
-        if 0 <= index < len(utils.expenses):
-            removed = utils.expenses.pop(index)
-            # Dùng removed[0] cho mô tả, removed[2] cho số tiền
-            print(
-                f"=> Đã xóa thành công: '{removed[0]}' ({removed[2]:,.0f} VND)"
-            )
-        else:
-            print("Lỗi: STT không tồn tại!")
-    except ValueError:
-        print("Lỗi: Vui lòng nhập một số nguyên!")
+    choice = int(input_num("\nNhập STT khoản chi phí muốn xóa (0 để hủy): ", is_int=True))
+    
+    if 0 < choice <= len(expenses):
+        removed = expenses.pop(choice - 1)
+        print(f"=> Đã xóa thành công: '{removed[0]}' ({removed[2]:,.0f} VND)")
+    elif choice != 0:
+        print("Lỗi: STT không tồn tại!")
 
 
 

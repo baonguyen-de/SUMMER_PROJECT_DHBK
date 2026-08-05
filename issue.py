@@ -34,11 +34,22 @@ Ghi chú:
     - Dữ liệu được lưu trong utils.py.
 """
 import os
-import readchar
 import utils
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+# Hàm phụ trợ bẫy lỗi nhập số nguyên
+def input_number(prompt, min_val=0, max_val=None):
+    while True:
+        try:
+            val = int(input(prompt))
+            if val < min_val or (max_val is not None and val > max_val):
+                print(f"Lựa chọn không hợp lệ! Vui lòng nhập từ {min_val} đến {max_val}.")
+                continue
+            return val
+        except ValueError:
+            print("Vui lòng nhập một số nguyên hợp lệ!")
 
 functions = [
     "Thêm vấn đề",
@@ -48,63 +59,27 @@ functions = [
     "Thoát ra menu chính"
 ]
 
-def render_menu(selected_index):
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("---VẤN ĐỀ VÀ CẢNH BÁO---")
-    for i, function in enumerate(functions):
-        if i == selected_index:
-            print(f"> \033[32m{function}\033[0m")
-        else:
-            print(f"    {function}")
-
-def menu_choice():
-    current_index = 0
-    while True:
-        render_menu(current_index)
-        key = readchar.readkey()
-        if key == readchar.key.UP:
-            current_index = (current_index -1) % len(functions)
-        elif key == readchar.key.DOWN:
-            current_index = (current_index + 1) % len(functions)
-        elif key == readchar.key.ENTER:
-            return current_index
 def create_issue(part_name, error_status):
-    description = (f"{part_name} bị lỗi")
-    if error_status == "ERROR":
-        severity = "HIGH"
-    else:
-        severity = "MEDIUM"
-    utils.issue_parts.append(description)
+    severity = "HIGH" if error_status == "ERROR" else "MEDIUM"
+    utils.issue_parts.append(f"{part_name} bị lỗi")
     utils.issue_errors.append(severity)
     utils.issue_statuses.append("OPEN")
 
 def add_issue():
     print("THÊM VẤN ĐỀ MỚI")
-    desc = input("Mô tả vấn đề:").strip()
+    desc = input("Mô tả vấn đề: ").strip()
     if not desc:
         print("Mô tả không được để trống!")
         input("\nNhấn ENTER để thử lại...")
         return
-    Muc_do = [
-        "HIGH",
-        "MEDIUM",
-        "LOW"
-    ]
+
+    muc_do = ["HIGH", "MEDIUM", "LOW"]
     print("\nMức độ nghiêm trọng:")
-    for i, level in enumerate(Muc_do, 1):
+    for i, level in enumerate(muc_do, 1):
         print(f"{i}. {level}")
 
-    # Vòng lặp kiểm tra nhập liệu hợp lệ
-    while True:
-        try:
-            choice_status = int(input("Nhập số tương ứng với tình trạng: "))
-            if 1 <= choice_status <= len(Muc_do):
-                selected_status = Muc_do[choice_status - 1]
-                break
-            else:
-                print("Lựa chọn không hợp lệ. Vui lòng nhập từ 1 đến 3.")
-        except ValueError:
-            print("Vui lòng nhập một số nguyên hợp lệ!")
+    choice_status = input_number("Nhập số tương ứng với tình trạng: ", min_val=1, max_val=len(muc_do))
+    selected_status = muc_do[choice_status - 1]
 
     utils.issue_parts.append(desc)
     utils.issue_errors.append(selected_status)
@@ -114,52 +89,39 @@ def add_issue():
     input("\nNhấn ENTER để tiếp tục")
 
 def view_issue():
-    print("\n\033[32m--- CÁC VẤN ĐỀ ĐANG TỒN TẠI ---\033[0m")
-    if len(utils.issue_parts) == 0:
+    print("CÁC VẤN ĐỀ ĐANG TỒN TẠI")
+    if not utils.issue_parts:
         print("Hiện không có vấn đề nào")
-        input("Nhấn ENTER để tiếp tục")
-        return
-    for i in range(len(utils.issue_parts)):
-        desc = utils.issue_parts[i]
-        severity = utils.issue_errors[i]
-        status = utils.issue_statuses[i]
-        print(f"STT {i + 1}:")
-        print(f"  Vấn đề   : {desc}")
-        print(f"  Mức độ   : {severity}")
-        print(f"  Trạng thái: {status}")
-    input("Nhấn ENTER để tiếp tục")
+    else:
+        for i, (desc, severity, status) in enumerate(zip(utils.issue_parts, utils.issue_errors, utils.issue_statuses), 1):
+            print(f"STT {i}:\n  Vấn đề   : {desc}\n  Mức độ   : {severity}\n  Trạng thái: {status}")
+    
+    input("\nNhấn ENTER để quay về")
 
 def close_issue():
     print("ĐÓNG VẤN ĐỀ")
-    open_issues = []
-    for i in range(len(utils.issue_statuses)):
-        if utils.issue_statuses[i] == "OPEN":
-            open_issues.append(i)
-    if len(open_issues) == 0:
-        print("Không có vấn đề nào để đóng")
-        input("Nhấn ENTER để tiếp tục")
-        return
-    for index, open in enumerate(open_issues, 1):
-        print(f"{index}. {utils.issue_parts[open]}")
-    try:
-        choice = int(input("\nChọn STT vấn đề muốn đóng (0 để hủy): "))
-        if choice == 0:
-            return
-        if 1 <= choice <= len(open_issues):
-            target_i = open_issues[choice - 1]
-            utils.issue_statuses[target_i] = "CLOSED"
-            print(f"\nĐã đóng vấn đề!")
-        else:
-            print("Lựa chọn không hợp lệ!")
-    except ValueError:
-        print("Vui lòng nhập số nguyên hợp lệ!")
+    open_issues = [i for i, status in enumerate(utils.issue_statuses) if status == "OPEN"]
     
+    if not open_issues:
+        print("Không có vấn đề nào để đóng")
+        input("\nNhấn ENTER để tiếp tục")
+        return
+
+    for index, open_idx in enumerate(open_issues, 1):
+        print(f"{index}. {utils.issue_parts[open_idx]}")
+
+    choice = input_number("\nChọn STT vấn đề muốn đóng (0 để hủy): ", min_val=0, max_val=len(open_issues))
+    if choice == 0:
+        return
+
+    target_i = open_issues[choice - 1]
+    utils.issue_statuses[target_i] = "CLOSED"
+    print("\n✅ Đã đóng vấn đề!")
     input("\nNhấn ENTER để tiếp tục")
 
 def delete_issue():
-    """Chức năng: Xóa vấn đề"""
     clear_screen()
-    print("\033[32m--- XÓA VẤN ĐỀ ---\033[0m")
+    print("=== XÓA VẤN ĐỀ ===")
 
     if not utils.issue_parts:
         print("Không có vấn đề nào trong danh sách để xóa.")
@@ -167,40 +129,24 @@ def delete_issue():
         return
 
     print("Danh sách tất cả các vấn đề:")
-    for i in range(len(utils.issue_parts)):
-        print(f"{i + 1}. {utils.issue_parts[i]} | {utils.issue_errors[i]} | {utils.issue_statuses[i]}")
+    for i, (p, e, s) in enumerate(zip(utils.issue_parts, utils.issue_errors, utils.issue_statuses), 1):
+        print(f"{i}. {p} | {e} | {s}")
 
-    try:
-        choice = int(input("\nChọn STT vấn đề muốn xóa vĩnh viễn (0 để hủy): "))
-        if choice == 0:
-            return
-        if 1 <= choice <= len(utils.issue_parts):
-            idx = choice - 1
-            removed_desc = utils.issue_parts.pop(idx)
-            utils.issue_errors.pop(idx)
-            utils.issue_statuses.pop(idx)
-            print(f"\nĐã xóa thành công vấn đề: '{removed_desc}'")
-        else:
-            print("Lựa chọn không hợp lệ!")
-    except ValueError:
-        print("Vui lòng nhập số nguyên hợp lệ!")
+    choice = input_number("\nChọn STT vấn đề muốn xóa vĩnh viễn (0 để hủy): ", min_val=0, max_val=len(utils.issue_parts))
+    if choice == 0:
+        return
 
+    idx = choice - 1
+    removed_desc = utils.issue_parts[idx]
+    
+    # Xóa đồng thời trong cả 3 danh sách
+    for lst in (utils.issue_parts, utils.issue_errors, utils.issue_statuses):
+        lst.pop(idx)
+
+    print(f"\n✅ Đã xóa thành công vấn đề: '{removed_desc}'")
     input("\nNhấn ENTER để tiếp tục")
 
-def run():
-    while True:
-        selected_option = menu_choice()
-        os.system('cls' if os.name == 'nt' else 'clear')
-        if selected_option == 0:
-            add_issue()
-        elif selected_option == 1:
-            view_issue()
-        elif selected_option == 2:
-            close_issue()
-        elif selected_option == 3:
-            delete_issue()
-        elif selected_option == 4:
-            break
+
     
 
 

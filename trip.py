@@ -26,36 +26,33 @@ Ghi chú:
     - Không xử lý chi phí hoặc bảo dưỡng.
 """
 
-import utils
 from datetime import datetime
 import utils
 
+# Khởi tạo thuộc tính trips trong utils nếu chưa có
+if not hasattr(utils, "trips"):
+    utils.trips = []
 
 def add_trip():
-    """Ghi nhận chuyến đi mới (Bao gồm giao diện nhập liệu chuẩn hóa)"""
+    """Ghi nhận chuyến đi mới"""
     print("\n--- THÊM CHUYẾN ĐI MỚI ---")
 
-    # 1. Nhập và kiểm tra định dạng Ngày (DD/MM/YYYY)
+    # 1. Nhập Ngày (DD/MM/YYYY)
     while True:
         date_str = input("Nhập ngày (DD/MM/YYYY): ").strip()
         try:
-            # Kiểm tra ngày hợp lệ (đúng định dạng và đúng ngày thực tế, ví dụ không có 31/02)
-            valid_date = datetime.strptime(date_str, "%d/%m/%Y")
-            formatted_date = valid_date.strftime("%d/%m/%Y")
+            formatted_date = datetime.strptime(date_str, "%d/%m/%Y").strftime("%d/%m/%Y")
             break
         except ValueError:
-            print(
-                "Lỗi: Định dạng ngày không hợp lệ! Vui lòng nhập đúng dạng DD/MM/YYYY (VD: 25/12/2026)."
-            )
+            print("Lỗi: Định dạng ngày không hợp lệ! VD: 25/12/2026.")
 
-    # 2. Nhập Điểm đi (Không được để trống)
+    # 2. Nhập Điểm đi
     while True:
         origin = input("Nhập điểm đi: ").strip()
-        if origin:
-            break
+        if origin: break
         print("Lỗi: Điểm đi không được để trống!")
 
-    # 3. Nhập Điểm đến (Không được để trống và phải khác điểm đi)
+    # 3. Nhập Điểm đến
     while True:
         destination = input("Nhập điểm đến: ").strip()
         if not destination:
@@ -65,66 +62,56 @@ def add_trip():
         else:
             break
 
-    # 4. Nhập Quãng đường (Phải là số thực và lớn hơn 0)
+    # 4. Nhập Quãng đường
     while True:
         try:
             distance = float(input("Nhập quãng đường (km): "))
-            if distance > 0:
-                break
+            if distance > 0: break
             print("Lỗi: Quãng đường phải lớn hơn 0!")
         except ValueError:
-            print("Lỗi: Quãng đường phải là số hợp lệ! Vui lòng nhập lại.")
+            print("Lỗi: Quãng đường phải là số hợp lệ!")
 
-    # 5. Nhập Chế độ lái (Không được để trống)
+    # 5. Nhập Chế độ lái
     while True:
         mode = input("Nhập chế độ lái (VD: Eco, Sport, Auto): ").strip()
-        if mode:
-            break
+        if mode: break
         print("Lỗi: Chế độ lái không được để trống!")
 
-    # Lưu dữ liệu vào utils.trips
-    if not hasattr(utils, "trips"):
-        utils.trips = []
-
-    new_trip = [formatted_date, origin, destination, distance, mode]
-    utils.trips.append(new_trip)
+    # Lưu dữ liệu
+    utils.trips.append([formatted_date, origin, destination, distance, mode])
     print("\n-> Đã thêm chuyến đi thành công!")
 
 
 def view_trip():
     """Xem danh sách các chuyến đi"""
-   
+    if not utils.trips:
+        print("\nChưa có lịch sử chuyến đi nào.")
+        return False
 
-    print("\n\033[32m--- LỊCH SỬ CHUYỂN ĐI ---\033[0m")
+    print("\n\033[32m--- LỊCH SỬ CHUYẾN ĐI ---\033[0m")
     for i, trip in enumerate(utils.trips, start=1):
         date, origin, destination, distance, mode = trip
-        print(
-            f"{i}. Ngày: {date} | Từ: {origin} Đến: {destination} | "
-            f"Khoảng cách: {distance} km | Chế độ lái: {mode}"
-        )
+        print(f"{i}. Ngày: {date} | Từ: {origin} Đến: {destination} | Khoảng cách: {distance} km | Chế độ lái: {mode}")
+    return True
 
 
 def show_summary():
-    if not utils.trips:
-        print("Chưa có lịch sử chuyến đi nào.")
-        return
     """Hiển thị tổng quãng đường và chuyến đi dài nhất"""
-    # Tính tổng quãng đường
+    if not utils.trips:
+        print("\nChưa có lịch sử chuyến đi nào.")
+        return
+
     total_dist = sum(trip[3] for trip in utils.trips)
-    # Tìm chuyến đi dài nhất
     longest = max(utils.trips, key=lambda trip: trip[3])
 
-    print(f"\n- Tổng quãng đường đã đi: {total_dist} km")
-    print(
-        f"- Chuyến đi dài nhất: {longest[1]} -> {longest[2]} ({longest[3]} km)"
-    )
+    print(f"\n- Tổng quãng đường đã đi: {total_dist:.1f} km")
+    print(f"- Chuyến đi dài nhất: {longest[1]} -> {longest[2]} ({longest[3]} km)")
 
 
 def delete_trip():
     """Xóa một chuyến đi khỏi danh sách"""
-    view_trip()
-    if not utils.trips:
-        print("\nLịch sử chuyến đi trống.")
+    has_trips = view_trip()
+    if not has_trips:
         return
 
     try:
@@ -137,8 +124,7 @@ def delete_trip():
             removed = utils.trips.pop(index - 1)
             print(f"-> Đã xóa chuyến đi: {removed[1]} --> {removed[2]}")
         else:
-            print("-> Số thứ tự không hợp lệ.")
+            print("-> Số thứ tự không nằm trong danh sách.")
     except ValueError:
-        print("Lỗi: Phải nhập số nguyên!")
-
+        print("Lỗi: Vui lòng nhập số nguyên hợp lệ!")
 
